@@ -1,18 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import { useAuth } from '~auth';
-import { Button } from '~platform';
+import { Button, IconButton, Drawer } from '~platform';
 
 export default () => {
   const { logout } = useAuth();
+  const [open, setOpen] = useState(false);
 
   return (
     <React.Fragment>
       <Head>
-        <title>get purpose done</title>
+        <title>Get purpose done</title>
       </Head>
-      <h1>Home</h1>
-      <Button onClick={logout}>Logout</Button>
+      <Drawer
+        isOpen={open}
+        setIsOpen={setOpen}
+      >
+        <Button onClick={logout} className="mt-12" variant="link">Logout</Button>
+      </Drawer>
+      <div className="absolute top-6 left-12">
+        <IconButton name="menu" onClick={() => setOpen(true)} />
+      </div>
     </React.Fragment>
   );
 };
