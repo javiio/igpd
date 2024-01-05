@@ -1,0 +1,9 @@
+export default {
+  apiKey: 'apikeyXyz',
+  authDomain: 'app-abc.firebaseapp.com',
+  projectId: 'app-abc',
+  storageBucket: 'app-abc.appspot.com',
+  messagingSenderId: '123123123',
+  appId: '1:123123123:web:appIdXyz',
+  measurementId: 'G-XYZ',
+};
