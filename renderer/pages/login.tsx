@@ -3,6 +3,7 @@ import Head from 'next/head';
 import * as THREE from 'three';
 import HALO from 'vanta/dist/vanta.halo.min';
 import { AuthForm } from '~auth';
+import { LogoTrail } from '~animation';
 
 export default () => {
   const [vantaEffect, setVantaEffect] = useState(null);
@@ -34,11 +35,11 @@ export default () => {
       <Head>
         <title>Login</title>
       </Head>
-      
+
       <div ref={myRef} className="h-screen flex">
         <div className="flex-1">
-          <div className="text-white font-extralight text-6xl pt-4 ml-12">
-            gpd
+          <div className="text-white font-thin text-xl mt-4 ml-12">
+            <LogoTrail />
           </div>
         </div>
         <div className="flex-1 flex flex-col justify-center items-end mr-32">
