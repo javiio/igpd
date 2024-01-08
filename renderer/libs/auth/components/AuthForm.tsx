@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAuth } from '~auth';
 import { Input, Label, Button } from '~platform';
 
@@ -10,7 +10,7 @@ export const AuthForm = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     login(email, password);
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="w-96">
@@ -26,7 +26,7 @@ export const AuthForm = () => {
           />
         </div>
         <div>
-          <Label>Password</Label> 
+          <Label>Password</Label>
           <Input
             variant='secondary'
             type="password"

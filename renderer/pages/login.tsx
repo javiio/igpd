@@ -5,12 +5,13 @@ import HALO from 'vanta/dist/vanta.halo.min';
 import { AuthForm } from '~auth';
 import { LogoTrail } from '~animation';
 
-export default () => {
+const Login = () => {
   const [vantaEffect, setVantaEffect] = useState(null);
 
-  const myRef = useRef(null)
+  const myRef = useRef(null);
   useEffect(() => {
     if (!vantaEffect) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       setVantaEffect(HALO({
         THREE,
         el: myRef.current,
@@ -23,12 +24,12 @@ export default () => {
         backgroundColor: 0xd195c,
         xOffset: -0.07,
         size: 1,
-      }))
+      }));
     }
     return () => {
-      if (vantaEffect) vantaEffect.destroy()
-    }
-  }, [vantaEffect])
+      if (vantaEffect) (vantaEffect as any).destroy();
+    };
+  }, [vantaEffect]);
 
   return (
     <React.Fragment>
@@ -49,3 +50,5 @@ export default () => {
     </React.Fragment>
   );
 };
+
+export default Login;

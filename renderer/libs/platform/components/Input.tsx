@@ -1,10 +1,10 @@
 import React from 'react';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary'
 }
 
-export const Input = ({ variant = 'primary', className, ...props }: InputProps ) => {
+export const Input = ({ variant = 'primary', className, ...props }: InputProps) => {
   const classes = [
     className,
     'rounded-md focus:ring-4 focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5',
@@ -17,4 +17,4 @@ export const Input = ({ variant = 'primary', className, ...props }: InputProps )
       {...props}
     />
   );
-}
+};

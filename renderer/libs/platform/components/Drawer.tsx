@@ -1,7 +1,13 @@
 import React from 'react';
 import cn from 'classnames';
 
-export const Drawer = ({ children, isOpen, setIsOpen }) => {
+interface DrawerProps {
+  children: React.ReactNode
+  isOpen: boolean
+  setIsOpen: (isOpen: boolean) => void
+};
+
+export const Drawer = ({ children, isOpen, setIsOpen }: DrawerProps) => {
   return (
     <main
       className={cn(
@@ -14,7 +20,7 @@ export const Drawer = ({ children, isOpen, setIsOpen }) => {
       <section
         className={cn(
           'w-screen max-w-xs left-0 absolute bg-slate-200 h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform',
-          isOpen ? 'translate-x-0 ': '-translate-x-full',
+          isOpen ? 'translate-x-0 ' : '-translate-x-full'
         )}
       >
         <article className="relative w-screen max-w-xs pb-10 flex flex-col space-y-6 overflow-y-auto h-full">

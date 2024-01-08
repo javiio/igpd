@@ -1,9 +1,9 @@
-import React from 'react'
-import type { AppProps } from 'next/app'
+import React from 'react';
+import type { AppProps } from 'next/app';
 import { ProvideData } from '~platform';
 import { AuthRedirect } from '~auth';
 
-import '../styles/globals.css'
+import '../styles/globals.css';
 
 const GPDApp = ({ Component, pageProps }: AppProps) => {
   return (
@@ -13,6 +13,6 @@ const GPDApp = ({ Component, pageProps }: AppProps) => {
       </AuthRedirect>
     </ProvideData>
   );
-}
+};
 
-export default GPDApp
+export default GPDApp;

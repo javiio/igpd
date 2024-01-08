@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { useAuth } from '../';
 
@@ -8,7 +8,9 @@ export const AuthRedirect = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (currentUser === undefined && router.pathname !== '/login') {
-      router.push('/login');
+      router.push('/login')
+        .then(() => {})
+        .catch((err) => console.error(err));
     }
   }, [currentUser, router.pathname]);
 
@@ -17,4 +19,4 @@ export const AuthRedirect = ({ children }: { children: React.ReactNode }) => {
   }
 
   return children;
-}
+};

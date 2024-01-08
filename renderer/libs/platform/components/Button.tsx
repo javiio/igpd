@@ -31,7 +31,7 @@ export const Button = ({
     variant === 'clear' && 'border border-white',
     variant === 'link' && 'text-blue-500 hover:underline',
     theme === 'light' && '!text-slate-900 !border-slate-900',
-    className && className,
+    className && className
   );
 
   return (

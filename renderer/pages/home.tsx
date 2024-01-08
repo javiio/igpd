@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useAuth } from '~auth';
 import { Button, IconButton, Drawer } from '~platform';
 
-export default () => {
+const Home = () => {
   const { logout } = useAuth();
   const [open, setOpen] = useState(false);
 
@@ -18,9 +18,11 @@ export default () => {
       >
         <Button onClick={logout} className="mt-12" variant="link">Logout</Button>
       </Drawer>
-      <div className="absolute top-6 left-12">
+      <div className="absolute top-6 left-16">
         <IconButton name="menu" onClick={() => setOpen(true)} />
       </div>
     </React.Fragment>
   );
 };
+
+export default Home;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CiMenuFries } from "react-icons/ci";
+import { CiMenuFries } from 'react-icons/ci';
 
 interface IconProps {
   name: string
