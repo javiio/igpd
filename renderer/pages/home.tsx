@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import { useAuth } from '~auth';
-import { Button, IconButton, Drawer } from '~platform';
+import { Button, IconButton, Drawer } from '~core-ui';
 
 const Home = () => {
   const { logout } = useAuth();

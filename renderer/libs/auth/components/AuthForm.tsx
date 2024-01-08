@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from '~auth';
-import { Input, Label, Button } from '~platform';
+import { Input, Label, Button } from '~core-ui';
 
 export const AuthForm = () => {
   const [email, setEmail] = React.useState('');

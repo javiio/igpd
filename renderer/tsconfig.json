@@ -11,6 +11,9 @@
       "~auth": [
         "./libs/auth"
       ],
+      "~core-ui": [
+        "./libs/core-ui"
+      ],
       "~platform": [
         "./libs/platform"
       ],
