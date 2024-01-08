@@ -8,43 +8,41 @@ export const useAuth = () => {
   const { currentUser } = useData();
   const router = useRouter();
 
-  const login = (email, password) => {
+  const login = (email: string, password: string) => {
     setIsLoading(true);
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        router.push('/home');
+      .then(async (userCredential) => {
+        await router.push('/home');
       })
       .catch((err) => {
-        const errorCode = err.code;
-        const errorMessage = err.message;
-        console.log(errorCode, errorMessage)
+        console.log(err);
       })
       .finally(() => {
         setIsLoading(false);
       });
-  }
+  };
 
-  const signup = (email, password) => {
+  const signup = (email: string, password: string) => {
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        router.push('/home');
+      .then(async (userCredential) => {
+        await router.push('/home');
       })
       .catch((err) => {
-        const errorCode = err.code;
-        const errorMessage = err.message;
-        console.log(errorCode, errorMessage)
+        console.log(err);
       })
       .finally(() => {
         setIsLoading(false);
       });
-  }
+  };
 
   const logout = () => {
     signOut(auth)
-      .then(() => {
-        router.push('/login');
+      .then(async () => {
+        await router.push('/login');
       })
-      .catch((err) => {});
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return {
@@ -54,4 +52,4 @@ export const useAuth = () => {
     logout,
     isLoading,
   };
-}
+};
