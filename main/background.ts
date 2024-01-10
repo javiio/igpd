@@ -1,6 +1,7 @@
 import path from 'path'
 import { app, ipcMain } from 'electron'
 import serve from 'electron-serve'
+const contextMenu = require('electron-context-menu');
 import { createWindow } from './helpers'
 
 const isProd = process.env.NODE_ENV === 'production'
@@ -25,10 +26,21 @@ if (isProd) {
 
   if (isProd) {
     await mainWindow.loadURL('app://./home')
-  } else {``
+  } else {
     const port = process.argv[2]
     await mainWindow.loadURL(`http://localhost:${port}/home`)
     mainWindow.webContents.openDevTools()
+
+    contextMenu({
+      prepend: (defaultActions, params, browserWindow) => [
+        {
+          label: 'Inspect element',
+          click: () => {
+            browserWindow.webContents.inspectElement(params.x, params.y);
+          },
+        },
+      ],
+    });
   }
 })()
 
