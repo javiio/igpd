@@ -17,6 +17,9 @@
       "~platform": [
         "./libs/platform"
       ],
+      "~projects": [
+        "./libs/projects"
+      ],
     },
     "strictNullChecks": true,
     "jsx": "preserve"

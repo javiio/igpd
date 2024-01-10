@@ -26,8 +26,28 @@ import firebaseConfig from '../config/firebase.config';
 const firebaseApp = initializeApp(firebaseConfig);
 export const auth = getAuth(firebaseApp);
 
-const dataContext = createContext({
+interface DataContext {
+  currentUser: any
+  useCollection: any
+  useDoc: any
+  useDocOnce: any
+  addDoc: any
+  setDoc: any
+  updateDoc: any
+  addItemToArrayDoc: any
+  deleteDoc: any
+}
+
+const dataContext = createContext<DataContext>({
   currentUser: null,
+  useCollection: null,
+  useDoc: null,
+  useDocOnce: null,
+  addDoc: null,
+  setDoc: null,
+  updateDoc: null,
+  addItemToArrayDoc: null,
+  deleteDoc: null,
 });
 
 export const ProvideData = ({ children }: { children: React.ReactNode }) => {
@@ -45,33 +65,33 @@ export const ProvideData = ({ children }: { children: React.ReactNode }) => {
 
   const useCollection = (path: string) =>
     useFirebaseCollection(
-      collection(getFirestore(firebaseApp), `users/${currentUser.id}/${path}`),
+      collection(getFirestore(firebaseApp), `users/${currentUser.uid}/${path}`),
       { snapshotListenOptions: { includeMetadataChanges: true } }
     );
 
   const useDoc = (...path: string[]) => {
     return useFirebaseDoc(
-      doc(getFirestore(firebaseApp), `users/${currentUser.id}`, ...path),
+      doc(getFirestore(firebaseApp), `users/${currentUser.uid}`, ...path),
       { snapshotListenOptions: { includeMetadataChanges: true } }
     );
   };
 
   const useDocOnce = (...path: string[]) => {
     return useFirebaseDocOnce(
-      doc(getFirestore(firebaseApp), `users/${currentUser.id}`, ...path)
+      doc(getFirestore(firebaseApp), `users/${currentUser.uid}`, ...path)
     );
   };
 
   const addDoc = async (data: object, ...path: string[]) => {
     await addFirebaseDoc(
-      collection(getFirestore(firebaseApp), `users/${currentUser.id}`, ...path),
+      collection(getFirestore(firebaseApp), `users/${currentUser.uid}`, ...path),
       data
     );
   };
 
   const setDoc = async (data: object, ...path: string[]) => {
     await setFirebaseDoc(
-      doc(getFirestore(firebaseApp), `users/${currentUser.id}`, ...path),
+      doc(getFirestore(firebaseApp), `users/${currentUser.uid}`, ...path),
       data,
       { merge: true }
     );
@@ -80,7 +100,7 @@ export const ProvideData = ({ children }: { children: React.ReactNode }) => {
   const updateDoc = async (data: object, ...path: string[]) => {
     const docRef = doc(
       getFirestore(firebaseApp),
-      `users/${currentUser.id}`,
+      `users/${currentUser.uid}`,
       ...path
     );
     await updateFirebaseDoc(docRef, data);
@@ -93,7 +113,7 @@ export const ProvideData = ({ children }: { children: React.ReactNode }) => {
   ) => {
     const docRef = doc(
       getFirestore(firebaseApp),
-      `users/${currentUser.id}`,
+      `users/${currentUser.uid}`,
       ...path
     );
     await updateFirebaseDoc(docRef, { [attribute]: arrayUnion(data) });
@@ -101,7 +121,7 @@ export const ProvideData = ({ children }: { children: React.ReactNode }) => {
 
   const deleteDoc = async (...path: string[]) => {
     await deleteFirebaseDoc(
-      doc(getFirestore(firebaseApp), `users/${currentUser.id}`, ...path)
+      doc(getFirestore(firebaseApp), `users/${currentUser.uid}`, ...path)
     );
   };
 
