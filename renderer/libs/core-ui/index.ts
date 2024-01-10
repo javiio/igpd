@@ -5,3 +5,4 @@ export * from './components/IconButton';
 export * from './components/Input';
 export * from './components/Label';
 export * from './components/Loading';
+export * from './layout/AppLayout';
