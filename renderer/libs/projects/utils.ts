@@ -7,6 +7,32 @@ export const createProjectData = ({ name, color, icon }: { name: string, color: 
     name,
     color,
     icon,
+    lists: [{
+      id: uid('Backlog'),
+      name: 'Backlog',
+      color: 'slate-400',
+      icon,
+    }, {
+      id: uid('Next'),
+      name: 'Next',
+      color: 'yellow-500',
+      icon,
+    }, {
+      id: uid('In-Progress'),
+      name: 'In Progress',
+      color: 'green-500',
+      icon,
+    }, {
+      id: uid('Waiting'),
+      name: 'Waiting',
+      color: 'purple-500',
+      icon,
+    }, {
+      id: uid('Done'),
+      name: 'Done',
+      color: 'orange-500',
+      icon,
+    }],
     active: true,
   };
 };

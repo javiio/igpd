@@ -15,6 +15,7 @@ const DEFAULT_PROJECT: Project = {
   name: 'Inbox',
   color: 'gray-400',
   icon: 'inbox',
+  lists: [],
 };
 
 interface ProjectContext {

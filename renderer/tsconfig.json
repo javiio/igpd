@@ -20,6 +20,9 @@
       "~projects": [
         "./libs/projects"
       ],
+      "~tasks": [
+        "./libs/tasks"
+      ],
     },
     "strictNullChecks": true,
     "jsx": "preserve"

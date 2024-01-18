@@ -45,7 +45,7 @@ export const SidebarMenu = () => {
         <Button onClick={logout} className="mt-12" variant="link">Logout</Button>
       </Drawer>
 
-      <div className="absolute top-6 left-16">
+      <div className="absolute top-5 left-16">
         <IconButton name="menu" onClick={() => setIsDrawerOpen(true)} />
       </div>
     </div>

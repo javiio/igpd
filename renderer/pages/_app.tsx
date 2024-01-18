@@ -8,6 +8,7 @@ import { AppLayout } from '~core-ui';
 import cn from 'classnames';
 
 import '../styles/globals.css';
+import { ProvideTasks } from 'libs/tasks/hooks/useTasks';
 
 const GPDApp = ({ Component, pageProps }: AppProps) => {
   return (
@@ -29,8 +30,15 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <ProvideProjects>
-      <AppLayout>
+    <>
+      <ProvideProjects>
+        <ProvideTasks>
+          <AppLayout>
+            {children}
+          </AppLayout>
+        </ProvideTasks>
+      </ProvideProjects>
+
       <div
         className={cn(
           'hidden h-6 h-5 h-4 h-3 w-6 w-5 w-4 h-3.5 w-3 w-3.5',
@@ -42,9 +50,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
           'border-purple-500 hover:border-purple-500 hover:border-purple-500/50 hover:border-purple-500/25 border-purple-500/50 border-purple-500/75 bg-purple-500 bg-purple-500/10 bg-purple-500/25 bg-purple-500/50 hover:bg-purple-500/25 focus:outline-purple-500 text-purple-500'
         )}
       />
-        {children}
-      </AppLayout>
-    </ProvideProjects>
+    </>
   );
 };
 
