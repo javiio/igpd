@@ -15,7 +15,7 @@ export const TaskDetails = ({ task }: TaskDetailsProps) => {
         <div className="flex-1">
           {isTitleEditing
             ? <EditTaskTitleForm task={task} onClose={() => setIsTitleEditing(false)} />
-            : <h2>{task.name}</h2>
+            : <h2 onClick={() => setIsTitleEditing(true)}>{task.name}</h2>
           }
         </div>
         <div className="mt-1">

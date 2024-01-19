@@ -29,7 +29,7 @@ export const EditTaskTitleForm = ({ task, onClose }: EditTaskTitleFormProps) => 
       <Input
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="text-2xl px-2 py-1"
+        className="text-2xl font-light px-2 py-1"
         placeholder="Task name..."
         autoFocus
       />
