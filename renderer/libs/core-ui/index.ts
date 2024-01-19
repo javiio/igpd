@@ -5,5 +5,6 @@ export * from './components/IconButton';
 export * from './components/Input';
 export * from './components/Label';
 export * from './components/Loading';
+export * from './components/ResizablePanels';
 export * from './layout/AppLayout';
 export * from './layout/SidebarMenu';
