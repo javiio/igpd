@@ -8,6 +8,7 @@ import { AppLayout } from '~core-ui';
 import cn from 'classnames';
 
 import '../styles/globals.css';
+import '../styles/editor.css';
 import { ProvideTasks } from 'libs/tasks/hooks/useTasks';
 
 const GPDApp = ({ Component, pageProps }: AppProps) => {

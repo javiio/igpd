@@ -1,5 +1,6 @@
 export * from './components/Button';
 export * from './components/Drawer';
+export * from './components/Error';
 export * from './components/Icon';
 export * from './components/IconButton';
 export * from './components/Input';

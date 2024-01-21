@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { NoteEditor } from '~notes';
 import { TaskActionsMenu, EditTaskTitleForm } from '../';
 import type { Task } from '../';
 
@@ -22,6 +23,8 @@ export const TaskDetails = ({ task }: TaskDetailsProps) => {
           <TaskActionsMenu task={task} onEdit={() => setIsTitleEditing(true)} />
         </div>
       </div>
+
+      <NoteEditor noteId={`task-${task.id}`} />
     </div>
   );
 };

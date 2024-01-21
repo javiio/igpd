@@ -14,6 +14,9 @@
       "~core-ui": [
         "./libs/core-ui"
       ],
+      "~notes": [
+        "./libs/notes"
+      ],
       "~platform": [
         "./libs/platform"
       ],
