@@ -10,6 +10,10 @@ export interface ResourceData {
   type: 'link' | 'file' | 'text'
 }
 
+export interface CommentData {
+  body: string
+}
+
 export interface TaskData {
   id: string
   name: string
@@ -17,6 +21,7 @@ export interface TaskData {
   listId: string
   actionItems: ActionItemData[]
   resources: ResourceData[]
+  comments: CommentData[]
 };
 
 export interface Task extends TaskData {}

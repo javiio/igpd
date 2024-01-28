@@ -3,6 +3,7 @@ export * from './components/ActionItems';
 export * from './components/EditTaskTitleForm';
 export * from './components/TaskActionsMenu';
 export * from './components/TaskBoardItem';
+export * from './components/TaskComments';
 export * from './components/TaskDetails';
 export * from './components/TaskResources';
 export * from './components/NewTaskForm';
