@@ -40,6 +40,12 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
         </ProvideTasks>
       </ProvideProjects>
 
+      {process.env.NODE_ENV === 'development' && (
+        <div className="absolute left-24 top-1.5 text-red-600 text-2xl font-light py-1 px-10 bg-yellow-500">
+          DEV
+        </div>
+      )}
+
       <div
         className={cn(
           'hidden h-6 h-5 h-4 h-3 w-6 w-5 w-4 h-3.5 w-3 w-3.5',
