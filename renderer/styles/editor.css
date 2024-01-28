@@ -19,13 +19,13 @@
 }
 
 .editor-input {
-  min-height: 80px;
+  min-height: 68px;
   resize: none;
   font-size: 15px;
   position: relative;
   tab-size: 1;
   outline: 0;
-  padding: 15px 10px;
+  padding: 10px 10px;
 }
 
 .editor-placeholder {
@@ -33,7 +33,7 @@
   overflow: hidden;
   position: absolute;
   text-overflow: ellipsis;
-  top: 15px;
+  top: 10px;
   left: 10px;
   font-size: 15px;
   user-select: none;

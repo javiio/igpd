@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron'
+import { contextBridge, ipcRenderer, IpcRendererEvent, shell } from 'electron'
 
 const handler = {
   send(channel: string, value: unknown) {
@@ -16,5 +16,9 @@ const handler = {
 }
 
 contextBridge.exposeInMainWorld('ipc', handler)
+contextBridge.exposeInMainWorld('shell', {
+  openExternal: shell.openExternal,
+})
 
 export type IpcHandler = typeof handler
+export type ShellHandler = typeof shell

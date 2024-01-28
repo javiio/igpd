@@ -26,9 +26,7 @@ export const ProjectForm = ({ project, onClose }: ProjectFormProps) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    console.log("....")
     if (project) {
-      console.log('update project', project);
       await updateProject({ ...project, name, color, icon });
     } else {
       await addProject(createProjectData({ name, color, icon }));

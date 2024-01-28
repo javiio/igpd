@@ -12,5 +12,7 @@ export const createTaskData = ({ name, project, list }: {
     name,
     projectId: project.id,
     listId: list.id,
+    actionItems: [],
+    resources: [],
   };
 };

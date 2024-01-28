@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NoteEditor } from '~notes';
-import { TaskActionsMenu, EditTaskTitleForm } from '../';
+import { TaskActionsMenu, EditTaskTitleForm, ActionItems, TaskResources } from '../';
 import type { Task } from '../';
 
 interface TaskDetailsProps {
@@ -24,7 +24,11 @@ export const TaskDetails = ({ task }: TaskDetailsProps) => {
         </div>
       </div>
 
-      <NoteEditor noteId={`task-${task.id}`} />
+      <div className="flex-col space-y-4 mt-1">
+        <TaskResources task={task} />
+        <NoteEditor noteId={`task-${task.id}`} />
+        <ActionItems task={task} />
+      </div>
     </div>
   );
 };

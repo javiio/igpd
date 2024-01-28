@@ -1,6 +1,6 @@
 import React from 'react';
-import { CiMenuFries } from 'react-icons/ci';
-import { FiPlus, FiX, FiMoreHorizontal, FiEdit, FiTrash2 } from 'react-icons/fi';
+import { CiMenuFries, CiBoxList } from 'react-icons/ci';
+import { FiPlus, FiX, FiMoreHorizontal, FiEdit, FiTrash2, FiLink, FiExternalLink, FiCopy, FiCheck } from 'react-icons/fi';
 
 interface IconProps {
   name: string
@@ -15,6 +15,11 @@ const ICONS_MAP = {
   more: FiMoreHorizontal,
   edit: FiEdit,
   remove: FiTrash2,
+  actionItems: CiBoxList,
+  link: FiLink,
+  external: FiExternalLink,
+  copy: FiCopy,
+  check: FiCheck,
 };
 
 export const Icon = ({ name, size = '5', className = '', ...props }: IconProps) => {
