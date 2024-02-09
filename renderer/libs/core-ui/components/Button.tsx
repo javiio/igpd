@@ -23,7 +23,7 @@ export const Button = ({
   ...props
 }: ButtonProps) => {
   const classes = cn(
-    'focus:ring-4 focus:outline-none focus:ring-blue-800 rounded-md text-center mb-2',
+    'focus:ring-4 focus:outline-none focus:ring-blue-800 rounded-md text-center mb-2 flex items-center space-x-2 transition-all duration-200 ease-in-out',
     size === 'xs' && 'text-xs py-0.5 px-2',
     size === 'sm' && 'text-sm py-1 px-3',
     size === 'md' && 'text-md py-2.5 px-5',

@@ -20,6 +20,8 @@ const DEFAULT_PROJECT: Project = {
 
 interface ProjectContext {
   projects: Project[]
+  selectedProject?: Project
+  setSelectedProject?: (project: Project) => void
   isLoading: boolean
   error?: FirestoreError
   getProject: (projectId?: string) => Project
@@ -39,15 +41,19 @@ export const ProvideProjects = ({ children }: { children: ReactNode }) => {
   const [projects, setProjects] = useState<Project[]>([]);
   const { useCollection, setDoc, updateDoc } = useData();
   const [data, isLoading, error] = useCollection('projects');
+  const [selectedProject, setSelectedProject] = useState<Project | undefined>();
 
   useEffect(() => {
-    if (data) {
+    if (data && !isLoading && !error) {
       const _projects: Project[] = data.docs
         .map((doc): Project => ({ ...doc.data() as ProjectData }))
         .filter((p) => p.active);
       setProjects(_projects);
+      if (selectedProject) {
+        setSelectedProject(_projects.find((p) => p.id === selectedProject.id));
+      }
     }
-  }, [data]);
+  }, [data, isLoading, error]);
 
   const getProject = useCallback((projectId?: string) => {
     return projects.find((p) => p.id === projectId) ?? DEFAULT_PROJECT;
@@ -68,6 +74,8 @@ export const ProvideProjects = ({ children }: { children: ReactNode }) => {
     getProject,
     addProject,
     updateProject,
+    selectedProject,
+    setSelectedProject,
   };
 
   return (

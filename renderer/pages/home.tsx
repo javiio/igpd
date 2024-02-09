@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Head from 'next/head';
-import { ProjectsTabs, ProjectBoard, type Project } from '~projects';
+import { ProjectsTabs, ProjectBoard, useProjects } from '~projects';
 import { ResizablePanels } from '~core-ui';
 import { TaskDetails, useTasks } from '~tasks';
 
 const Home = () => {
-  const [project, setProject] = useState<Project>();
   const { selectedTask } = useTasks();
+  const { selectedProject, setSelectedProject } = useProjects();
 
   return (
     <React.Fragment>
@@ -17,9 +17,9 @@ const Home = () => {
       <ResizablePanels aSize="75%" bSize="25%">
         <div className="">
           <div className="px-2 py-4">
-            <ProjectsTabs project={project} setProject={setProject} />
+            <ProjectsTabs project={selectedProject} setProject={setSelectedProject} />
           </div>
-          <ProjectBoard project={project} />
+          <ProjectBoard project={selectedProject} />
         </div>
 
         <div className="bg-slate-800 h-full">

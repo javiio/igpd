@@ -36,3 +36,12 @@ export const createProjectData = ({ name, color, icon }: { name: string, color: 
     active: true,
   };
 };
+
+export const createListData = ({ name, color, icon }: { name: string, color?: string, icon?: string }) => {
+  return {
+    id: uid(name),
+    name,
+    color: color ?? 'slate-400',
+    icon: icon ?? 'list',
+  };
+};

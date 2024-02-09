@@ -13,29 +13,33 @@ import type { TaskData, Task } from '../';
 
 interface TaskContext {
   tasks: Task[]
-  listsTasks: Map<string, Task[]>
+  listsItems: Record<string | number, Task[]>
   selectedTask?: Task
   setSelectedTask: (Task) => void
   isLoading: boolean
   error?: FirestoreError
   addTask: (object) => Promise<void>
   getTask: (taskId: string | undefined) => Task | undefined
+  updateTask: (taskId: string, object) => Promise<void>
 };
 
 const tasksContext = createContext<TaskContext>({
   tasks: [],
-  listsTasks: new Map(),
+  listsItems: {},
   isLoading: false,
   setSelectedTask: () => undefined,
   addTask: async () => {},
   getTask: () => undefined,
+  updateTask: async () => {},
 });
 
+type ListsItems = Record<string | number, Task[]>;
+
 export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
-  const { useCollection, setDoc } = useData();
+  const { useCollection, setDoc, updateDoc } = useData();
   const [tasks, setTasks] = useState<Task[]>([]);
   const [selectedTask, setSelectedTask] = useState<Task>();
-  const [listsTasks, setListsTasks] = useState<Map<string, Task[]>>(new Map());
+  const [listsItems, setListsItems] = useState<ListsItems>({});
   const [data, isLoading, error] = useCollection('tasks');
   const { projects } = useProjects();
 
@@ -47,12 +51,12 @@ export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
       });
       setTasks(allTasks);
 
-      const _listsTasks = new Map<string, Task[]>();
+      const _listsItems: ListsItems = {};
       allTasks.forEach((task) => {
-        const listTasks = _listsTasks.get(task.listId) ?? [];
-        _listsTasks.set(task.listId, [...listTasks, task]);
+        const items = _listsItems[task.listId] ?? [];
+        _listsItems[task.listId] = [...items, task];
       });
-      setListsTasks(_listsTasks);
+      setListsItems(_listsItems);
 
       if (selectedTask) {
         setSelectedTask(allTasks.find((t) => t.id === selectedTask.id));
@@ -70,15 +74,20 @@ export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
     [tasks]
   );
 
+  const updateTask = async (taskId: string, data: Partial<TaskData>) => {
+    await updateDoc(data, 'tasks', taskId);
+  };
+
   const value = {
     tasks,
-    listsTasks,
+    listsItems,
     isLoading,
     error,
     addTask,
     selectedTask,
     setSelectedTask,
     getTask,
+    updateTask,
   };
 
   return (
