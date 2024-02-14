@@ -21,7 +21,7 @@ const DEFAULT_PROJECT: Project = {
 interface ProjectContext {
   projects: Project[]
   selectedProject?: Project
-  setSelectedProject?: (project: Project) => void
+  setSelectedProject: (project: Project) => void
   isLoading: boolean
   error?: FirestoreError
   getProject: (projectId?: string) => Project
@@ -35,6 +35,7 @@ const projectContext = createContext<ProjectContext>({
   getProject: () => DEFAULT_PROJECT,
   addProject: async () => await Promise.resolve(),
   updateProject: async () => await Promise.resolve(),
+  setSelectedProject: () => {},
 });
 
 export const ProvideProjects = ({ children }: { children: ReactNode }) => {

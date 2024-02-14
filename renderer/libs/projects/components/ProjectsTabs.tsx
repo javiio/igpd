@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import { type Project, useProjects } from '..';
 
 interface ProjectsTabsProps {
-  project: Project
-  setProject: (project) => void
+  project?: Project
+  setProject: (project: Project) => void
 }
 
 export const ProjectsTabs: React.FC<ProjectsTabsProps> = ({ project, setProject }) => {
@@ -16,34 +16,31 @@ export const ProjectsTabs: React.FC<ProjectsTabsProps> = ({ project, setProject 
   };
 
   return (
-    <>
-      <div className="flex space-x-2">
-        {projects
-          .map((p: Project) => (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => { handleSelectProject(p); }}
-              className={cn(
-                'relative px-4 py-1.5 text-sm min-w-[78px] rounded-full border border-transparent',
-                p.id === project?.id ? '' : `hover:text-slate-300 hover:border-${p.color}/50`
-              )}
-            >
-              {p.id === project?.id && (
-                <motion.span
-                  layoutId="bubble"
-                  className={cn(
-                    'absolute inset-0 mix-blend-difference rounded-full border -z-10',
-                    `border-${p.color} bg-${p.color}/50`
-                  )}
-                  transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-                />
-              )}
-              {p.name}
-            </button>
-          ))}
-      </div>
-
-    </>
+    <div className="flex space-x-2">
+      {projects
+        .map((p: Project) => (
+          <button
+            key={p.id}
+            type="button"
+            onClick={() => { handleSelectProject(p); }}
+            className={cn(
+              'relative px-4 py-1.5 text-sm min-w-[78px] rounded-full border border-transparent',
+              p.id === project?.id ? '' : `hover:text-slate-300 hover:border-${p.color}/50`
+            )}
+          >
+            {p.id === project?.id && (
+              <motion.span
+                layoutId="bubble"
+                className={cn(
+                  'absolute inset-0 mix-blend-difference rounded-full border -z-10',
+                  `border-${p.color} bg-${p.color}/50`
+                )}
+                transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+              />
+            )}
+            {p.name}
+          </button>
+        ))}
+    </div>
   );
 };

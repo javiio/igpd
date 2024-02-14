@@ -67,8 +67,7 @@ export const TaskResources = ({ task }: TaskResourcesProps) => {
 
   return (
     <div className="flex space-x-2">
-      {resources.map((resource, i) => {
-        return (
+      {resources.map((resource, i) => (
         <div
           key={`${resource.title}-${i}`}
           onClick={async () => await handleOnClick(resource)}
@@ -130,7 +129,7 @@ export const TaskResources = ({ task }: TaskResourcesProps) => {
             </Transition>
           </Menu>
         </div>
-      )})}
+      ))}
       <div
         onClick={(e) => handleEditOrCreate(-1)}
         className="rounded-lg bg-slate-950 px-2 flex items-center space-x-2 h-6 hover:opacity-70 cursor-pointer"

@@ -19,7 +19,7 @@ const Home = () => {
           <div className="px-2 py-4">
             <ProjectsTabs project={selectedProject} setProject={setSelectedProject} />
           </div>
-          <ProjectBoard project={selectedProject} />
+          {selectedProject && <ProjectBoard project={selectedProject} />}
         </div>
 
         <div className="bg-slate-800 h-full">

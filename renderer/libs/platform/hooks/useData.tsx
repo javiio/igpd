@@ -65,33 +65,33 @@ export const ProvideData = ({ children }: { children: React.ReactNode }) => {
 
   const useCollection = (path: string) =>
     useFirebaseCollection(
-      collection(getFirestore(firebaseApp), `users/${currentUser.uid}/${path}`),
+      collection(getFirestore(firebaseApp), `users/${currentUser?.uid}/${path}`),
       { snapshotListenOptions: { includeMetadataChanges: true } }
     );
 
   const useDoc = (...path: string[]) => {
     return useFirebaseDoc(
-      doc(getFirestore(firebaseApp), `users/${currentUser.uid}`, ...path),
+      doc(getFirestore(firebaseApp), `users/${currentUser?.uid}`, ...path),
       { snapshotListenOptions: { includeMetadataChanges: true } }
     );
   };
 
   const useDocOnce = (...path: string[]) => {
     return useFirebaseDocOnce(
-      doc(getFirestore(firebaseApp), `users/${currentUser.uid}`, ...path)
+      doc(getFirestore(firebaseApp), `users/${currentUser?.uid}`, ...path)
     );
   };
 
   const addDoc = async (data: object, ...path: string[]) => {
     await addFirebaseDoc(
-      collection(getFirestore(firebaseApp), `users/${currentUser.uid}`, ...path),
+      collection(getFirestore(firebaseApp), `users/${currentUser?.uid}`, ...path),
       data
     );
   };
 
   const setDoc = async (data: object, ...path: string[]) => {
     await setFirebaseDoc(
-      doc(getFirestore(firebaseApp), `users/${currentUser.uid}`, ...path),
+      doc(getFirestore(firebaseApp), `users/${currentUser?.uid}`, ...path),
       data,
       { merge: true }
     );
@@ -100,7 +100,7 @@ export const ProvideData = ({ children }: { children: React.ReactNode }) => {
   const updateDoc = async (data: object, ...path: string[]) => {
     const docRef = doc(
       getFirestore(firebaseApp),
-      `users/${currentUser.uid}`,
+      `users/${currentUser?.uid}`,
       ...path
     );
     await updateFirebaseDoc(docRef, data);
@@ -113,7 +113,7 @@ export const ProvideData = ({ children }: { children: React.ReactNode }) => {
   ) => {
     const docRef = doc(
       getFirestore(firebaseApp),
-      `users/${currentUser.uid}`,
+      `users/${currentUser?.uid}`,
       ...path
     );
     await updateFirebaseDoc(docRef, { [attribute]: arrayUnion(data) });
@@ -121,7 +121,7 @@ export const ProvideData = ({ children }: { children: React.ReactNode }) => {
 
   const deleteDoc = async (...path: string[]) => {
     await deleteFirebaseDoc(
-      doc(getFirestore(firebaseApp), `users/${currentUser.uid}`, ...path)
+      doc(getFirestore(firebaseApp), `users/${currentUser?.uid}`, ...path)
     );
   };
 

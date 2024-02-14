@@ -53,8 +53,8 @@ export const ActionItems = ({ task }: { task: Task }) => {
     if (!result.destination) return;
 
     const reorderedItems = Array.from(actionItems);
-    const [removed] = reorderedItems.splice(result.source.index, 1);
-    reorderedItems.splice(result.destination.index, 0, removed);
+    const [removed] = reorderedItems.splice(result.source.index as number, 1);
+    reorderedItems.splice(result.destination.index as number, 0, removed);
 
     setActionItems(reorderedItems);
     await update({ actionItems: reorderedItems });
