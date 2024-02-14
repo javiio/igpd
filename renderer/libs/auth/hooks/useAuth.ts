@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { useRouter } from 'next/router';
 import { useData, auth } from '~platform';
 
@@ -22,9 +22,11 @@ export const useAuth = () => {
       });
   };
 
-  const signup = (email: string, password: string) => {
-    signInWithEmailAndPassword(auth, email, password)
+  const signup = (displayName: string, email: string, password: string) => {
+    setIsLoading(true);
+    createUserWithEmailAndPassword(auth, email, password)
       .then(async (userCredential) => {
+        await updateProfile(userCredential.user, { displayName });
         await router.push('/home');
       })
       .catch((err) => {
