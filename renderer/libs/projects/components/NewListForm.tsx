@@ -25,7 +25,7 @@ export const NewListForm = ({ project }: NewListFormProps) => {
   };
 
   return (
-    <div className="w-64 h-24 shrink-0 bg-slate-800 rounded-md mx-2">
+    <div className="w-64 h-[87px] shrink-0 bg-slate-800 rounded-md mx-2">
       {!showForm && (
         <button
           onClick={() => setShowForm(true)}

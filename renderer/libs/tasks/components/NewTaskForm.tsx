@@ -31,7 +31,7 @@ export const NewTaskForm = ({ project, list }: NewTaskFormProps) => {
           <Button
             onClick={() => setShowForm(true)}
             size="sm"
-            className="text-slate-400 w-full hover:bg-slate-800/80 hover:no-underline hover:text-white mb-0 pl-0 hover:pl-2 transition-all"
+            className="text-slate-400 w-full hover:bg-slate-800/80 hover:no-underline hover:text-white !container !mb-0 mt-1 pl-0 hover:pl-2 transition-all !justify-start"
             icon="plus"
             variant='link'
           >
