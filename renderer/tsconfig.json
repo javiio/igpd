@@ -11,6 +11,9 @@
       "~auth": [
         "./libs/auth"
       ],
+      "~calendar": [
+        "./libs/calendar"
+      ],
       "~core-ui": [
         "./libs/core-ui"
       ],

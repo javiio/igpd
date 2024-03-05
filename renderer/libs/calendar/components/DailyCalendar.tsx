@@ -1,0 +1,178 @@
+import React, { useEffect, useState } from 'react';
+import { setHours, setMinutes, addMinutes, getMinutes, getHours, isToday } from 'date-fns';
+import {
+  DndContext,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors,
+  useDroppable,
+} from '@dnd-kit/core';
+import { restrictToVerticalAxis, createSnapModifier } from '@dnd-kit/modifiers';
+import { useProjects } from '~projects';
+import { useTasks } from '~tasks';
+import { useDaily, CalendarSession, CalendarSchedule, type Session } from '../';
+
+const START_TIME = 7;
+const END_TIME = 19;
+const HEIGHT_PER_MINUTE = 1.2;
+const times = Array.from(Array(END_TIME - START_TIME).keys()).map(
+  (i) => `${i + START_TIME}:00`
+);
+
+interface DailyCalendarProps {
+  date: Date
+};
+
+const CalendarLines = ({ date, onClick }: { date: Date, onClick: (start: Date, end: Date) => Promise<void> }) => {
+  const handleClick = async (timeString: string) => {
+    const hours = parseInt(timeString.split(':')[0], 10);
+    const minutes = parseInt(timeString.split(':')[1], 10);
+    const start = setHours(setMinutes(date, minutes), hours);
+    const end = addMinutes(start, 30);
+    await onClick(start, end);
+  };
+
+  return (
+    <>
+      {times.map((time) => (
+        <div key={time} className="relative">
+          <div
+            className="border-b border-b-white/10 w-full hover:bg-gray-100/10 cursor-pointer"
+            style={{ height: 30 * HEIGHT_PER_MINUTE }}
+            onClick={async () => await handleClick(time)}
+          />
+          <div
+            className="border-b border-b-white/30 w-full hover:bg-gray-100/10 cursor-pointer"
+            style={{ height: 30 * HEIGHT_PER_MINUTE }}
+            onClick={async () => await handleClick(`${time.split(':')[0]}:30`)}
+          />
+        </div>
+      ))}
+    </>
+  );
+};
+
+export const DailyCalendar = ({ date }: DailyCalendarProps) => {
+  const [currentTimePosition, setCurrentTimePosition] = useState<number>();
+  const { selectedProject, defaultProject } = useProjects();
+  const { selectedTask } = useTasks();
+  const { schedule, sessions, addSchedule, addSession, updateSchedule, updateSession } = useDaily(date);
+
+  const { setNodeRef } = useDroppable({
+    id: 'calendar-droppable',
+  });
+
+  const mouseSensor = useSensor(MouseSensor, {
+    activationConstraint: {
+      distance: 10,
+    },
+  });
+  const touchSensor = useSensor(TouchSensor, {
+    activationConstraint: {
+      delay: 250,
+      tolerance: 5,
+    },
+  });
+  const sensors = useSensors(mouseSensor, touchSensor);
+  const snapToGrid = createSnapModifier(HEIGHT_PER_MINUTE * 5);
+  const modifiers = [restrictToVerticalAxis, snapToGrid];
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout | undefined;
+    if (isToday(date)) {
+      const now = new Date();
+      interval = setInterval(() => {
+        setCurrentTimePosition(((getHours(now) - START_TIME) * 60 + getMinutes(now)) * HEIGHT_PER_MINUTE);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  });
+
+  const handleAddSchedule = async (start: Date, end: Date) => {
+    await addSchedule({
+      start,
+      end,
+      project: selectedProject ?? defaultProject,
+    });
+  };
+
+  const handleAddSession = async (start: Date, end: Date) => {
+    await addSession({
+      start,
+      end,
+      project: selectedProject ?? defaultProject,
+      task: selectedTask,
+    });
+  };
+
+  const handleOnDragEnd = async (event) => {
+    const { y } = event.delta;
+    const mins = Math.round(y / HEIGHT_PER_MINUTE);
+    const session = event.active.data.current.session as Session;
+    const i = event.active.data.current.i as number;
+    const type = event.active.data.current.i as string;
+    session.start = addMinutes(session.start, mins);
+    session.end = addMinutes(session.end, mins);
+    if (type === 'schedule') {
+      await updateSchedule(session, i);
+    } else if (type === 'planning') {
+      await updateSession(session, i);
+    }
+  };
+
+  return (
+    <DndContext
+      sensors={sensors}
+      modifiers={modifiers}
+      onDragEnd={handleOnDragEnd}
+    >
+      <div ref={setNodeRef} className="relative">
+        <div className="flex">
+          <div className="w-10">
+            {times.map((time) => (
+              <div
+                key={time}
+                className="text-xs pr-1 pt-1 text-white/75 text-right"
+                style={{ height: 60 * HEIGHT_PER_MINUTE }}
+              >
+                {time}
+              </div>
+            ))}
+          </div>
+
+          <div className="w-4 border-x border-slate-700">
+            <CalendarLines date={date} onClick={handleAddSchedule} />
+            {schedule.map((session, i) => (
+              <CalendarSchedule
+                key={i}
+                i={i}
+                session={session}
+                updateSession={async (s: Session) => await updateSchedule(s, i)}
+              />
+            ))}
+          </div>
+          <div className="flex-1 relative">
+            <CalendarLines date={date} onClick={handleAddSession} />
+            {sessions.map((session, i) => (
+              <CalendarSession
+                key={i}
+                i={i}
+                session={session}
+                updateSession={async (s: Session) => await updateSession(s, i)}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div
+          className="w-full absolute pl-12 opacity-75"
+          style={{ top: currentTimePosition }}
+        >
+          <div className="h-0.5 bg-red-500 w-full" />
+          <div className="w-2.5 h-2.5 bg-red-500 rounded-full -mt-1.5" />
+        </div>
+      </div>
+    </DndContext>
+  );
+};

@@ -16,3 +16,20 @@
     @apply text-xl font-light;
   }
 }
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  @apply w-2.5 h-2.5;
+}
+/* Scrollbar track */
+::-webkit-scrollbar-track {
+  @apply bg-orange-800/50 rounded-lg;
+}
+/* Scrollbar handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-orange-800/80 rounded-lg;
+}
+/* Scrollbar handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-orange-800/90;
+}

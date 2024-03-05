@@ -27,6 +27,7 @@ interface ProjectContext {
   getProject: (projectId?: string) => Project
   addProject: (project: Project) => Promise<void>
   updateProject: (project: Project) => Promise<void>
+  defaultProject: Project
 };
 
 const projectContext = createContext<ProjectContext>({
@@ -36,6 +37,7 @@ const projectContext = createContext<ProjectContext>({
   addProject: async () => await Promise.resolve(),
   updateProject: async () => await Promise.resolve(),
   setSelectedProject: () => {},
+  defaultProject: DEFAULT_PROJECT,
 });
 
 export const ProvideProjects = ({ children }: { children: ReactNode }) => {
@@ -77,6 +79,7 @@ export const ProvideProjects = ({ children }: { children: ReactNode }) => {
     updateProject,
     selectedProject,
     setSelectedProject,
+    defaultProject: DEFAULT_PROJECT,
   };
 
   return (
