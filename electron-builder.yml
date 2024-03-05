@@ -1,6 +1,6 @@
-appId: com.example.nextron
-productName: My Nextron App
-copyright: Copyright © 2018 Yoshihide Shiono
+appId: com.creator.gpdone
+productName: GPD - Get Purpose Done
+copyright: Javier Orellana
 directories:
   output: dist
   buildResources: resources
