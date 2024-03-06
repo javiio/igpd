@@ -21,6 +21,8 @@ const ICONS_MAP = {
   copy: Fi.FiCopy,
   check: Fi.FiCheck,
   comment: Fi.FiMessageCircle,
+  prev: Fi.FiChevronLeft,
+  next: Fi.FiChevronRight,
 };
 
 export const Icon = ({ name, size = '5', className = '', ...props }: IconProps) => {

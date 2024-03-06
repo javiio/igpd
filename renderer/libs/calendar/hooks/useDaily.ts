@@ -22,13 +22,11 @@ export const useDaily = (date: Date) => {
     }
 
     const dailyData = data?.data() as DailyRecordData | undefined;
-    if (dailyData) {
-      const _daily = dataToDaily(dailyData, getProject, getTask);
-      setDaily(_daily);
-      setSchedule(_daily?.schedule ?? []);
-      setSessions(_daily?.planning ?? []);
-    }
-  }, [data, isLoading, error, getProject, getTask]);
+    const _daily = dailyData ? dataToDaily(dailyData, getProject, getTask) : undefined;
+    setDaily(_daily);
+    setSchedule(_daily?.schedule ?? []);
+    setSessions(_daily?.planning ?? []);
+  }, [date, data, isLoading, error, getProject, getTask]);
 
   const addSchedule = async (session: Session) => {
     if (isLoading || error) {

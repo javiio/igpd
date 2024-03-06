@@ -87,7 +87,7 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
       }, 1000);
     }
     return () => clearInterval(interval);
-  });
+  }, [date]);
 
   const handleAddSchedule = async (start: Date, end: Date) => {
     await addSchedule({
@@ -165,13 +165,15 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
           </div>
         </div>
 
-        <div
-          className="w-full absolute pl-12 opacity-75"
-          style={{ top: currentTimePosition }}
-        >
-          <div className="h-0.5 bg-red-500 w-full" />
-          <div className="w-2.5 h-2.5 bg-red-500 rounded-full -mt-1.5" />
-        </div>
+        {isToday(date) && (
+          <div
+            className="w-full absolute pl-12 opacity-75"
+            style={{ top: currentTimePosition }}
+          >
+            <div className="h-0.5 bg-red-500 w-full" />
+            <div className="w-2.5 h-2.5 bg-red-500 rounded-full -mt-1.5" />
+          </div>
+        )}
       </div>
     </DndContext>
   );
