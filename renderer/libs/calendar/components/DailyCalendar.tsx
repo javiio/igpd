@@ -81,8 +81,8 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
   useEffect(() => {
     let interval: NodeJS.Timeout | undefined;
     if (isToday(date)) {
-      const now = new Date();
       interval = setInterval(() => {
+        const now = new Date();
         setCurrentTimePosition(((getHours(now) - START_TIME) * 60 + getMinutes(now)) * HEIGHT_PER_MINUTE);
       }, 1000);
     }
