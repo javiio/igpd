@@ -14,7 +14,7 @@ const Home = () => {
         <title>Get purpose done</title>
       </Head>
 
-      <ResizablePanels aSize="75%" bSize="25%">
+      <ResizablePanels aSize="65%" bSize="35%">
         <div className="">
           <div className="px-2 py-4">
             <ProjectsTabs project={selectedProject} setProject={setSelectedProject} />
@@ -22,7 +22,7 @@ const Home = () => {
           {selectedProject && <ProjectBoard project={selectedProject} />}
         </div>
 
-        <div className="bg-slate-800 h-full">
+        <div className="bg-slate-800 h-[calc(100vh-7.2rem)] overflow-auto">
           {selectedTask && (
             <TaskDetails task={selectedTask} />
           )}
