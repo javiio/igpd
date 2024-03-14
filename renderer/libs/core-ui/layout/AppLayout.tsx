@@ -12,6 +12,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
 
   return (
     <div>
+      <div className="titlebar" />
       <div className="fixed w-full h-28 top-0 left-0 right-0 bg-slate-950/50 border-b border-b-slate-700" />
       <div className="absolute w-64 top-6 bottom-12 left-12">
         <div className="flex space-x-2 mb-2 pl-0.5">

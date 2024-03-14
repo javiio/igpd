@@ -17,6 +17,11 @@
   }
 }
 
+.titlebar {
+  @apply z-50 absolute left-0 right-0 top-0 h-3 bg-white/25;
+  -webkit-app-region: drag
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar {
   @apply w-2.5 h-2.5;
