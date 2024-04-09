@@ -6,8 +6,27 @@ import { useTasks } from '~tasks';
 import { sessionToData, dataToDaily } from '../';
 import type { Session, DailyRecord, DailyRecordData } from '../';
 
-export const useDaily = (date: Date) => {
-  const id = format(date, 'yyyy-MM-dd');
+export const START_TIME = 0;
+export const END_TIME = 24;
+export const HEIGHT_PER_MINUTE = 1.4;
+export const TIMES = Array.from(Array(END_TIME - START_TIME).keys()).map(
+  (i) => `${i + START_TIME}:00`
+);
+
+export interface UseDailyData {
+  daily?: DailyRecord
+  schedule: Session[]
+  sessions: Session[]
+  addSchedule: (session: Session) => Promise<void>
+  addSession: (session: Session) => Promise<void>
+  updateSchedule: (session: Session, i: number) => Promise<void>
+  updateSession: (session: Session, i: number) => Promise<void>
+  isLoading: boolean
+  error?: Error
+}
+
+export const useDaily = (date: Date): UseDailyData => {
+  const [id, setId] = useState(format(date, 'yyyy-MM-dd'));
   const [daily, setDaily] = useState<DailyRecord | undefined>();
   const [schedule, setSchedule] = useState<Session[]>([]);
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -15,6 +34,10 @@ export const useDaily = (date: Date) => {
   const [data, isLoading, error] = useDoc('daily', id);
   const { getProject } = useProjects();
   const { getTask } = useTasks();
+
+  useEffect(() => {
+    setId(format(date, 'yyyy-MM-dd'));
+  }, [date]);
 
   useEffect(() => {
     if (isLoading || error) {
@@ -26,7 +49,7 @@ export const useDaily = (date: Date) => {
     setDaily(_daily);
     setSchedule(_daily?.schedule ?? []);
     setSessions(_daily?.planning ?? []);
-  }, [date, data, isLoading, error, getProject, getTask]);
+  }, [id, data, isLoading, error, getProject, getTask]);
 
   const addSchedule = async (session: Session) => {
     if (isLoading || error) {

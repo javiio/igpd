@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { setHours, setMinutes, addMinutes, getMinutes, getHours, isToday } from 'date-fns';
+import React from 'react';
+import { setHours, setMinutes, addMinutes, isToday } from 'date-fns';
 import {
   DndContext,
   MouseSensor,
@@ -11,15 +11,7 @@ import {
 import { restrictToVerticalAxis, createSnapModifier } from '@dnd-kit/modifiers';
 import { useProjects } from '~projects';
 import { useTasks } from '~tasks';
-import { useDaily, CalendarSession, CalendarSchedule, type Session } from '../';
-
-const START_TIME = 7;
-const END_TIME = 19;
-const HEIGHT_PER_MINUTE = 1.2;
-const times = Array.from(Array(END_TIME - START_TIME).keys()).map(
-  (i) => `${i + START_TIME}:00`
-);
-
+import { useDaily, CalendarSession, CalendarSchedule, useToday, TIMES, HEIGHT_PER_MINUTE, type Session } from '../';
 interface DailyCalendarProps {
   date: Date
 };
@@ -35,7 +27,7 @@ const CalendarLines = ({ date, onClick }: { date: Date, onClick: (start: Date, e
 
   return (
     <>
-      {times.map((time) => (
+      {TIMES.map((time) => (
         <div key={time} className="relative">
           <div
             className="border-b border-b-white/10 w-full hover:bg-gray-100/10 cursor-pointer"
@@ -54,10 +46,10 @@ const CalendarLines = ({ date, onClick }: { date: Date, onClick: (start: Date, e
 };
 
 export const DailyCalendar = ({ date }: DailyCalendarProps) => {
-  const [currentTimePosition, setCurrentTimePosition] = useState<number>();
   const { selectedProject, defaultProject } = useProjects();
   const { selectedTask } = useTasks();
   const { schedule, sessions, addSchedule, addSession, updateSchedule, updateSession } = useDaily(date);
+  const { currentTimePosition } = useToday();
 
   const { setNodeRef } = useDroppable({
     id: 'calendar-droppable',
@@ -77,17 +69,6 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
   const sensors = useSensors(mouseSensor, touchSensor);
   const snapToGrid = createSnapModifier(HEIGHT_PER_MINUTE * 5);
   const modifiers = [restrictToVerticalAxis, snapToGrid];
-
-  useEffect(() => {
-    let interval: NodeJS.Timeout | undefined;
-    if (isToday(date)) {
-      interval = setInterval(() => {
-        const now = new Date();
-        setCurrentTimePosition(((getHours(now) - START_TIME) * 60 + getMinutes(now)) * HEIGHT_PER_MINUTE);
-      }, 1000);
-    }
-    return () => clearInterval(interval);
-  }, [date]);
 
   const handleAddSchedule = async (start: Date, end: Date) => {
     await addSchedule({
@@ -111,7 +92,7 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
     const mins = Math.round(y / HEIGHT_PER_MINUTE);
     const session = event.active.data.current.session as Session;
     const i = event.active.data.current.i as number;
-    const type = event.active.data.current.i as string;
+    const type = event.active.data.current.type as string;
     session.start = addMinutes(session.start, mins);
     session.end = addMinutes(session.end, mins);
     if (type === 'schedule') {
@@ -130,7 +111,7 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
       <div ref={setNodeRef} className="relative">
         <div className="flex">
           <div className="w-10">
-            {times.map((time) => (
+            {TIMES.map((time) => (
               <div
                 key={time}
                 className="text-xs pr-1 pt-1 text-white/75 text-right"

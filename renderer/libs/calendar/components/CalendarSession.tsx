@@ -5,11 +5,8 @@ import { CSS } from '@dnd-kit/utilities';
 import { format, addMinutes } from 'date-fns';
 import { Resizable } from 'react-resizable';
 import '../../../../node_modules/react-resizable/css/styles.css';
-import { type Session } from '../';
+import { START_TIME, HEIGHT_PER_MINUTE, type Session } from '../';
 import { Icon } from '~core-ui';
-
-const START_TIME = 7;
-const HEIGHT_PER_MINUTE = 1.2;
 
 interface CalendarSessionProps {
   session: Session

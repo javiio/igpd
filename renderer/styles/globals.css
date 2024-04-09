@@ -48,3 +48,13 @@
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
+@keyframes in-progress-wobble {
+  0%, 100% {
+    transform: translateX(-90%);
+  }
+
+  50% {
+    transform: translateX(90%);
+  }
+}
