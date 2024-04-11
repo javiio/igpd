@@ -9,11 +9,11 @@ export const OnGoingSession = () => {
     <div>
       <button
         onClick={toggleInProgress}
-        className="absolute right-2 top-1 hover:border"
+        className="absolute right-0 top-0 border border-transparent hover:border-green-500/50 rounded-lg pb-1 px-2 transition-colors duration-200 ease-in-out"
       >
         <div
           className={cn(
-            'text-4xl font-[Arial]',
+            'text-4xl font-[Arial] transition-colors duration-200 ease-in-out',
             currentSession && isInProgress ? `text-${currentSession.project.color}` : 'text-gray-400/50'
           )}
         >

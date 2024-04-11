@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, createContext } from 'react';
 import { getHours, getMinutes, getSeconds, isToday } from 'date-fns';
-import { useDaily, START_TIME, HEIGHT_PER_MINUTE } from '../';
+import { useDaily, ActivityLogAction, START_TIME, HEIGHT_PER_MINUTE } from '../';
 import type { Session } from '../';
 
 interface TodayContext {
@@ -23,7 +23,7 @@ const todayContext = createContext<TodayContext>({
 
 export const ProvideToday = ({ children }: { children: React.ReactNode }) => {
   const [today, setToday] = useState(new Date());
-  const { sessions, schedule } = useDaily(today);
+  const { sessions, schedule, addActivityLog } = useDaily(today);
   const [currentSession, setCurrentSession] = useState<Session | undefined>();
   const [currentTimePosition, setCurrentTimePosition] = useState<number>(0);
   const [remainingTime, setRemainingTime] = useState<number>(0);
@@ -57,7 +57,6 @@ export const ProvideToday = ({ children }: { children: React.ReactNode }) => {
       current = schedule.find((session) => session.start <= now && session.end >= now);
     }
     if (current) {
-      console.log(current);
       const hours = getHours(current.end) - getHours(now);
       const minutes = getMinutes(current.end) - getMinutes(now);
       const seconds = getSeconds(current.end) - getSeconds(now);
@@ -76,8 +75,17 @@ export const ProvideToday = ({ children }: { children: React.ReactNode }) => {
     setCurrentSession(current);
   };
 
-  const toggleInProgress = () => {
-    setIsInProgress((prev) => !prev);
+  const toggleInProgress = async () => {
+    if (!currentSession) {
+      return;
+    }
+    const _isInProgress = !isInProgress;
+    await addActivityLog({
+      action: _isInProgress ? ActivityLogAction.Start : ActivityLogAction.Pause,
+      createdAt: new Date(),
+      session: currentSession,
+    });
+    setIsInProgress(_isInProgress);
   };
 
   const value = {
