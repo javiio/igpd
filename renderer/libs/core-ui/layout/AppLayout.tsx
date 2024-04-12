@@ -18,7 +18,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
           <OnGoingSession />
         </div>
       </div>
-      <div className="absolute w-64 top-6 bottom-12 left-12">
+      <div className="absolute w-80 top-6 bottom-12 left-12">
         <div className="flex space-x-2 mb-2 pl-0.5">
           <IconButton name="prev" size={4} onClick={() => setDate(addDays(date, -1))} />
           <IconButton name="next" size={4} onClick={() => setDate(addDays(date, 1))} />
@@ -32,7 +32,7 @@ export const AppLayout = ({ children }: AppLayoutProps) => {
       </div>
       <SidebarMenu />
 
-      <main className="mt-28 ml-[304px]">
+      <main className="mt-28 ml-[368px]">
         {children}
       </main>
     </div>

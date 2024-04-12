@@ -16,7 +16,7 @@ export const ProjectsTabs: React.FC<ProjectsTabsProps> = ({ project, setProject 
   };
 
   return (
-    <div className="flex space-x-2">
+    <div className="flex space-x-2 px-4 overflow-x-auto no-scrollbar">
       {projects
         .map((p: Project) => (
           <button
@@ -24,7 +24,7 @@ export const ProjectsTabs: React.FC<ProjectsTabsProps> = ({ project, setProject 
             type="button"
             onClick={() => { handleSelectProject(p); }}
             className={cn(
-              'relative px-4 py-1.5 text-sm min-w-[78px] rounded-full border border-transparent',
+              'relative px-4 py-1.5 text-sm min-w-[78px] rounded-full border border-transparent shrink-0',
               p.id === project?.id ? '' : `hover:text-slate-300 hover:border-${p.color}/50`
             )}
           >

@@ -14,7 +14,7 @@ const Home = () => {
         <title>Get purpose done</title>
       </Head>
 
-      <ResizablePanels aSize="65%" bSize="35%">
+      <ResizablePanels aSize="40%" bSize="60%">
         <div className="">
           <div className="px-2 py-4">
             <ProjectsTabs project={selectedProject} setProject={setSelectedProject} />
