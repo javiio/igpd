@@ -1,3 +1,4 @@
+export * from './components/CalendarActivityLog';
 export * from './components/CalendarSchedule';
 export * from './components/CalendarSession';
 export * from './components/DailyCalendar';

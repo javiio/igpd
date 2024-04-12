@@ -38,7 +38,7 @@ export const CalendarSchedule = ({ session, i, updateSession }: CalendarSchedule
 
   return (
     <div
-      className="absolute w-3.5"
+      className="absolute w-[1.35rem]"
       ref={setNodeRef}
       style={{
         ...style,
@@ -53,7 +53,7 @@ export const CalendarSchedule = ({ session, i, updateSession }: CalendarSchedule
       >
         <div
           className={cn(
-            'rounded-xs py-[1px]',
+            'rounded-sm py-0 px-1',
             `bg-${color}/25 border border-${color} hover:bg-${color}/50`
           )}
           style={{ height: height - 2 }}

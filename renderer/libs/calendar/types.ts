@@ -18,21 +18,16 @@ export interface Session {
   actionItem?: string
 }
 
-export enum ActivityLogAction {
-  Start = 'Start',
-  Pause = 'Pause'
-}
-
 export interface ActivityLogData {
-  action: ActivityLogAction
-  createdAt: Timestamp
   session: SessionData
+  start: Timestamp
+  end?: Timestamp
 }
 
 export interface ActivityLog {
-  action: ActivityLogAction
-  createdAt: Date
   session: Session
+  start: Date
+  end?: Date
 }
 
 export interface DailyRecordData {

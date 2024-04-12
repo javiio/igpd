@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, createContext } from 'react';
 import { getHours, getMinutes, getSeconds, isToday } from 'date-fns';
-import { useDaily, ActivityLogAction, START_TIME, HEIGHT_PER_MINUTE } from '../';
+import { useDaily, START_TIME, HEIGHT_PER_MINUTE } from '../';
 import type { Session } from '../';
 
 interface TodayContext {
@@ -23,7 +23,7 @@ const todayContext = createContext<TodayContext>({
 
 export const ProvideToday = ({ children }: { children: React.ReactNode }) => {
   const [today, setToday] = useState(new Date());
-  const { sessions, schedule, addActivityLog } = useDaily(today);
+  const { sessions, schedule, activityLogs, addActivityLog, updateActivityLog } = useDaily(today);
   const [currentSession, setCurrentSession] = useState<Session | undefined>();
   const [currentTimePosition, setCurrentTimePosition] = useState<number>(0);
   const [remainingTime, setRemainingTime] = useState<number>(0);
@@ -79,13 +79,20 @@ export const ProvideToday = ({ children }: { children: React.ReactNode }) => {
     if (!currentSession) {
       return;
     }
-    const _isInProgress = !isInProgress;
-    await addActivityLog({
-      action: _isInProgress ? ActivityLogAction.Start : ActivityLogAction.Pause,
-      createdAt: new Date(),
-      session: currentSession,
-    });
-    setIsInProgress(_isInProgress);
+    if (!isInProgress) {
+      setIsInProgress(true);
+      await addActivityLog({
+        session: currentSession,
+        start: new Date(),
+      });
+    } else {
+      setIsInProgress(false);
+      const lastActivityLog = activityLogs[activityLogs.length - 1];
+      await updateActivityLog({
+        ...lastActivityLog,
+        end: new Date(),
+      }, activityLogs.length - 1);
+    }
   };
 
   const value = {

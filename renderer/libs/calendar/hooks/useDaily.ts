@@ -23,6 +23,7 @@ export interface UseDailyData {
   updateSchedule: (session: Session, i: number) => Promise<void>
   updateSession: (session: Session, i: number) => Promise<void>
   addActivityLog: (activity: ActivityLog) => Promise<void>
+  updateActivityLog: (activity: ActivityLog, i: number) => Promise<void>
   isLoading: boolean
   error?: Error
 }
@@ -97,12 +98,23 @@ export const useDaily = (date: Date): UseDailyData => {
     if (isLoading || error) {
       return;
     }
+
+    const _activityLogs = [...activityLogs, activity];
+    setActivityLogs(_activityLogs);
+
     const data = activityLogToData(activity);
     if (daily) {
       await addItemToArrayDoc(data, 'activity', 'daily', id);
     } else {
       await setDoc({ activity: [data] }, 'daily', id);
     }
+  };
+
+  const updateActivityLog = async (activity: ActivityLog, i: number) => {
+    const _activityLogs = [...activityLogs];
+    _activityLogs[i] = activity;
+    setActivityLogs(_activityLogs);
+    await updateDoc({ activity: _activityLogs.map(activityLogToData) }, 'daily', id);
   };
 
   return {
@@ -115,6 +127,7 @@ export const useDaily = (date: Date): UseDailyData => {
     updateSchedule,
     updateSession,
     addActivityLog,
+    updateActivityLog,
     isLoading,
     error,
   };

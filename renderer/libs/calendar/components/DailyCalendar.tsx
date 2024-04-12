@@ -11,7 +11,7 @@ import {
 import { restrictToVerticalAxis, createSnapModifier } from '@dnd-kit/modifiers';
 import { useProjects } from '~projects';
 import { useTasks } from '~tasks';
-import { useDaily, CalendarSession, CalendarSchedule, useToday, TIMES, HEIGHT_PER_MINUTE, type Session } from '../';
+import { useDaily, CalendarSession, CalendarSchedule, CalendarActivityLog, useToday, TIMES, HEIGHT_PER_MINUTE, type Session } from '../';
 interface DailyCalendarProps {
   date: Date
 };
@@ -48,8 +48,8 @@ const CalendarLines = ({ date, onClick }: { date: Date, onClick: (start: Date, e
 export const DailyCalendar = ({ date }: DailyCalendarProps) => {
   const { selectedProject, defaultProject } = useProjects();
   const { selectedTask } = useTasks();
-  const { schedule, sessions, addSchedule, addSession, updateSchedule, updateSession } = useDaily(date);
-  const { currentTimePosition } = useToday();
+  const { schedule, sessions, activityLogs, addSchedule, addSession, updateSchedule, updateSession } = useDaily(date);
+  const { currentTimePosition, isInProgress } = useToday();
 
   const { setNodeRef } = useDroppable({
     id: 'calendar-droppable',
@@ -122,7 +122,7 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
             ))}
           </div>
 
-          <div className="w-4 border-x border-slate-700">
+          <div className="w-6 border-x border-slate-700">
             <CalendarLines date={date} onClick={handleAddSchedule} />
             {schedule.map((session, i) => (
               <CalendarSchedule
@@ -133,6 +133,7 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
               />
             ))}
           </div>
+
           <div className="flex-1 relative">
             <CalendarLines date={date} onClick={handleAddSession} />
             {sessions.map((session, i) => (
@@ -144,16 +145,29 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
               />
             ))}
           </div>
+
+          <div className="z-10">
+            <CalendarLines date={date} onClick={handleAddSchedule} />
+            {activityLogs.map((activity, i) => (
+              <CalendarActivityLog
+                key={i}
+                activity={activity}
+                isInProgress={
+                  isInProgress &&
+                  isToday(date) &&
+                  i === activityLogs.length - 1 &&
+                  !activity.end
+                }
+              />
+            ))}
+          </div>
         </div>
 
         {isToday(date) && (
           <div
-            className="w-full absolute pl-12 opacity-75"
+            className="absolute left-16 right-0 opacity-75 h-0.5 bg-red-500/90"
             style={{ top: currentTimePosition }}
-          >
-            <div className="h-0.5 bg-red-500 w-full" />
-            <div className="w-2.5 h-2.5 bg-red-500 rounded-full -mt-1.5" />
-          </div>
+          />
         )}
       </div>
     </DndContext>

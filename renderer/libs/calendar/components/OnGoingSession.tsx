@@ -9,7 +9,7 @@ export const OnGoingSession = () => {
     <div>
       <button
         onClick={toggleInProgress}
-        className="absolute right-0 top-0 border border-transparent hover:border-green-500/50 rounded-lg pb-1 px-2 transition-colors duration-200 ease-in-out"
+        className="absolute right-0 top-0 hover:bg-slate-800/50 rounded-lg pb-1 px-2 transition-colors duration-200 ease-in-out"
       >
         <div
           className={cn(
