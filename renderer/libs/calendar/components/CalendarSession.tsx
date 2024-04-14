@@ -5,16 +5,17 @@ import { CSS } from '@dnd-kit/utilities';
 import { format, addMinutes } from 'date-fns';
 import { Resizable } from 'react-resizable';
 import '../../../../node_modules/react-resizable/css/styles.css';
-import { START_TIME, HEIGHT_PER_MINUTE, type Session } from '../';
-import { Icon } from '~core-ui';
+import { Icon, IconButton } from '~core-ui';
+import { calcTopPosition, HEIGHT_PER_MINUTE, type Session } from '../';
 
 interface CalendarSessionProps {
   session: Session
   i: number
   updateSession: (session: Session) => Promise<void>
+  removeSession: () => Promise<void>
 }
 
-export const CalendarSession = ({ session, i, updateSession }: CalendarSessionProps) => {
+export const CalendarSession = ({ session, i, updateSession, removeSession }: CalendarSessionProps) => {
   const duration = (session.end.getTime() - session.start.getTime()) / 60000;
   const [height, setHeight] = React.useState(duration * HEIGHT_PER_MINUTE);
   const { color } = session.project;
@@ -42,7 +43,7 @@ export const CalendarSession = ({ session, i, updateSession }: CalendarSessionPr
       ref={setNodeRef}
       style={{
         ...style,
-        top: ((session.start.getHours() - START_TIME) * 60 + session.start.getMinutes()) * HEIGHT_PER_MINUTE,
+        top: calcTopPosition(session.start),
       }}
     >
       <Resizable
@@ -53,7 +54,7 @@ export const CalendarSession = ({ session, i, updateSession }: CalendarSessionPr
       >
         <div
           className={cn(
-            'rounded-md text-xs px-0.5 py-[1px]',
+            'relative group rounded-md text-xs px-1 py-0.5 overflow-hidden',
             `bg-${color}/50 border-${color}/75 hover:bg-${color}/75`
           )}
           style={{ height: height - 2 }}
@@ -61,20 +62,20 @@ export const CalendarSession = ({ session, i, updateSession }: CalendarSessionPr
           <div
             {...listeners}
             {...attributes}
-            className="flex space-x-0.5 w-full overflow-hidden"
-            style={{ height: height - 16 }}
+            className="w-full h-full"
           >
-            <Icon name={session.project.icon} size={3.5} className="mt-0.5" />
-            <div className="flex-1">{session.task?.name}</div>
-          </div>
-
-          <div className="absolute bottom-[1px] left-1 h-4 text-slate-300 flex space-x-2">
-            <div>
-              {format(session.start, 'HH:mm')}
+            <div className="flex space-x-2 items-center">
+              <Icon name={session.project.icon} size={3.5} className="" />
+              <div>{format(session.start, 'HH:mm')}</div>
+              <div>{`${duration}m`}</div>
+              <IconButton
+                name="remove"
+                size={3}
+                className="absolute right-1 top-0.5 hidden group-hover:block"
+                onClick={removeSession}
+              />
             </div>
-            <div>
-              {`${duration}m`}
-            </div>
+            <div className="overflow">{session.task?.name}</div>
           </div>
         </div>
       </Resizable>

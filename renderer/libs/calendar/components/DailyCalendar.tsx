@@ -48,7 +48,7 @@ const CalendarLines = ({ date, onClick }: { date: Date, onClick: (start: Date, e
 export const DailyCalendar = ({ date }: DailyCalendarProps) => {
   const { selectedProject, defaultProject } = useProjects();
   const { selectedTask } = useTasks();
-  const { schedule, sessions, activityLogs, addSchedule, addSession, updateSchedule, updateSession } = useDaily(date);
+  const { schedule, sessions, activityLogs, addSchedule, addSession, updateSchedule, updateSession, removeSession } = useDaily(date);
   const { currentTimePosition, isInProgress } = useToday();
 
   const { setNodeRef } = useDroppable({
@@ -138,10 +138,11 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
             <CalendarLines date={date} onClick={handleAddSession} />
             {sessions.map((session, i) => (
               <CalendarSession
-                key={i}
+                key={`${i}-${session.start.toISOString()}`}
                 i={i}
                 session={session}
                 updateSession={async (s: Session) => await updateSession(s, i)}
+                removeSession={async () => await removeSession(i)}
               />
             ))}
           </div>

@@ -22,6 +22,7 @@ export interface UseDailyData {
   addSession: (session: Session) => Promise<void>
   updateSchedule: (session: Session, i: number) => Promise<void>
   updateSession: (session: Session, i: number) => Promise<void>
+  removeSession: (i: number) => Promise<void>
   addActivityLog: (activity: ActivityLog) => Promise<void>
   updateActivityLog: (activity: ActivityLog, i: number) => Promise<void>
   isLoading: boolean
@@ -94,6 +95,13 @@ export const useDaily = (date: Date): UseDailyData => {
     await updateDoc({ planning: _sessions.map(sessionToData) }, 'daily', id);
   };
 
+  const removeSession = async (i: number) => {
+    const _sessions = [...sessions];
+    _sessions.splice(i, 1);
+    setSessions(_sessions);
+    await updateDoc({ planning: _sessions.map(sessionToData) }, 'daily', id);
+  };
+
   const addActivityLog = async (activity: ActivityLog) => {
     if (isLoading || error) {
       return;
@@ -126,6 +134,7 @@ export const useDaily = (date: Date): UseDailyData => {
     addSession,
     updateSchedule,
     updateSession,
+    removeSession,
     addActivityLog,
     updateActivityLog,
     isLoading,
