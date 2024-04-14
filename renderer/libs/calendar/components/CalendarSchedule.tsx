@@ -5,7 +5,7 @@ import { CSS } from '@dnd-kit/utilities';
 import { addMinutes } from 'date-fns';
 import { Resizable } from 'react-resizable';
 import '../../../../node_modules/react-resizable/css/styles.css';
-import { START_TIME, HEIGHT_PER_MINUTE, type Session } from '../';
+import { calcTopPosition, HEIGHT_PER_MINUTE, type Session } from '../';
 import { Icon } from '~core-ui';
 
 interface CalendarScheduleProps {
@@ -42,7 +42,7 @@ export const CalendarSchedule = ({ session, i, updateSession }: CalendarSchedule
       ref={setNodeRef}
       style={{
         ...style,
-        top: ((session.start.getHours() - START_TIME) * 60 + session.start.getMinutes()) * HEIGHT_PER_MINUTE,
+        top: calcTopPosition(session.start),
       }}
     >
       <Resizable

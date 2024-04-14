@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, createContext } from 'react';
 import { getHours, getMinutes, getSeconds, isToday } from 'date-fns';
-import { useDaily, START_TIME, HEIGHT_PER_MINUTE } from '../';
+import { useDaily, calcTopPosition } from '../';
 import type { Session } from '../';
 
 interface TodayContext {
@@ -36,7 +36,7 @@ export const ProvideToday = ({ children }: { children: React.ReactNode }) => {
       if (!isToday(today)) {
         setToday(now);
       }
-      setCurrentTimePosition(((getHours(now) - START_TIME) * 60 + getMinutes(now)) * HEIGHT_PER_MINUTE);
+      setCurrentTimePosition(calcTopPosition(now));
     }, 1000);
 
     return () => clearInterval(interval);

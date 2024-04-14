@@ -2,7 +2,7 @@ import { Timestamp } from 'firebase/firestore';
 import type { Project } from '~projects';
 import type { Task } from '~tasks';
 import type { Session, SessionData, DailyRecord, DailyRecordData, ActivityLogData, ActivityLog } from './types';
-import { isToday } from 'date-fns';
+import { START_TIME, HEIGHT_PER_MINUTE } from './';
 
 export const dataToDaily = (
   data: DailyRecordData,
@@ -50,3 +50,6 @@ export const activityLogToData = (activity: ActivityLog): ActivityLogData => ({
   start: Timestamp.fromDate(activity.start),
   ...(activity.end && { end: Timestamp.fromDate(activity.end) }),
 });
+
+export const calcTopPosition = (date: Date): number =>
+  ((date.getHours() - START_TIME) * 60 + date.getMinutes()) * HEIGHT_PER_MINUTE;

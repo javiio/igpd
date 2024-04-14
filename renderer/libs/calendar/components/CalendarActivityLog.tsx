@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 import '../../../../node_modules/react-resizable/css/styles.css';
-import { START_TIME, HEIGHT_PER_MINUTE, type ActivityLog } from '../';
+import { calcTopPosition, HEIGHT_PER_MINUTE, type ActivityLog } from '../';
 
 interface CalendarActivityLogProps {
   activity: ActivityLog
@@ -19,20 +19,20 @@ export const CalendarActivityLog = ({ activity, isInProgress }: CalendarActivity
       _duration = (new Date().getTime() - activity.start.getTime()) / 60000;
     }
     setDuration(_duration);
-  }, [activity]);
+  }, [activity, isInProgress]);
 
   return (
     <div className="mx-3">
       <div
         className={cn('absolute w-3 h-3 rounded-full -m-1.5', `bg-${activity.session.project.color}`)}
         style={{
-          top: ((activity.start.getHours() - START_TIME) * 60 + activity.start.getMinutes()) * HEIGHT_PER_MINUTE,
+          top: calcTopPosition(activity.start),
         }}
       />
       <div
         className={cn('absolute w-0.5 -mx-[1px]', `bg-${activity.session.project.color}`)}
         style={{
-          top: ((activity.start.getHours() - START_TIME) * 60 + activity.start.getMinutes()) * HEIGHT_PER_MINUTE,
+          top: calcTopPosition(activity.start),
           height: duration * HEIGHT_PER_MINUTE,
         }}
       />
@@ -40,19 +40,19 @@ export const CalendarActivityLog = ({ activity, isInProgress }: CalendarActivity
         <div
         className={cn('absolute w-3 h-3 rounded-full -m-1.5', `bg-${activity.session.project.color}`)}
           style={{
-            top: ((activity.end.getHours() - START_TIME) * 60 + activity.end.getMinutes()) * HEIGHT_PER_MINUTE,
+            top: calcTopPosition(activity.end),
           }}
         />
       )}
       {isInProgress && (
         <div
-          className={cn('absolute flex w-3 h-3 -m-1.5 rounded-full', `bg-${activity.session.project.color}`)}
+          className="absolute flex -m-2"
           style={{
-            top: (((new Date()).getHours() - START_TIME) * 60 + (new Date()).getMinutes()) * HEIGHT_PER_MINUTE,
+            top: calcTopPosition(new Date()),
           }}
         >
           <div className={`animate-ping absolute inline-flex h-full w-full rounded-full bg-${activity.session.project.color}`} />
-          <div className={`relative inline-flex rounded-full h-3 w-3 bg-${activity.session.project.color}`} />
+          <div className={`relative inline-flex rounded-full h-4 w-4 bg-${activity.session.project.color}`} />
         </div>
       )}
     </div>
