@@ -49,7 +49,7 @@ export const TaskComments = ({ task }: { task: Task }) => {
           value={body}
           onChange={handleInputChange}
           placeholder="Add new comment..."
-          className="bg-slate-900 px-2 py-1 w-48 focus:flex-1 transition-all focus:outline rounded-md delay-100"
+          className="px-2 py-1 w-48 focus:flex-1 transition-all delay-100"
         />
         <IconButton name="plus" type="submit" className="hidden group-focus-within:block" />
       </form>

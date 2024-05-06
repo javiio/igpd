@@ -22,15 +22,15 @@ export const CalendarActivityLog = ({ activity, isInProgress }: CalendarActivity
   }, [activity, isInProgress]);
 
   return (
-    <div className="mx-3">
+    <div className="w-4">
       <div
-        className={cn('absolute w-3 h-3 rounded-full -m-1.5', `bg-${activity.session.project.color}`)}
+        className={cn('absolute w-2 h-2 rounded-full -m-1', `bg-${activity.session.project.color}`)}
         style={{
           top: calcTopPosition(activity.start),
         }}
       />
       <div
-        className={cn('absolute w-0.5 -mx-[1px]', `bg-${activity.session.project.color}`)}
+        className={cn('absolute w-1 -mx-0.5', `bg-${activity.session.project.color}`)}
         style={{
           top: calcTopPosition(activity.start),
           height: duration * HEIGHT_PER_MINUTE,
@@ -38,21 +38,20 @@ export const CalendarActivityLog = ({ activity, isInProgress }: CalendarActivity
       />
       {activity.end && (
         <div
-        className={cn('absolute w-3 h-3 rounded-full -m-1.5', `bg-${activity.session.project.color}`)}
+        className={cn('absolute w-2 h-2 rounded-full -m-1', `bg-${activity.session.project.color}`)}
           style={{
             top: calcTopPosition(activity.end),
           }}
         />
       )}
+
       {isInProgress && (
         <div
-          className="absolute flex -m-2"
-          style={{
-            top: calcTopPosition(new Date()),
-          }}
+          className="absolute flex -m-1.5"
+          style={{ top: calcTopPosition(new Date()) }}
         >
+          <div className={`relative inline-flex rounded-full h-3 w-3 bg-${activity.session.project.color}`} />
           <div className={`animate-ping absolute inline-flex h-full w-full rounded-full bg-${activity.session.project.color}`} />
-          <div className={`relative inline-flex rounded-full h-4 w-4 bg-${activity.session.project.color}`} />
         </div>
       )}
     </div>

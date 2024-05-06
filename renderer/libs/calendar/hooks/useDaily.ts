@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { format, set } from 'date-fns';
+import { format } from 'date-fns';
 import { useData } from '~platform';
 import { useProjects } from '~projects';
 import { useTasks } from '~tasks';
