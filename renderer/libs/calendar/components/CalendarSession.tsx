@@ -7,7 +7,7 @@ import { Resizable } from 'react-resizable';
 import '../../../../node_modules/react-resizable/css/styles.css';
 import { Icon, IconButton } from '~core-ui';
 import { useTasks } from '~tasks';
-import { calcTopPosition, HEIGHT_PER_MINUTE, type Session } from '../';
+import { useSessions, calcTopPosition, HEIGHT_PER_MINUTE, type Session } from '../';
 
 interface CalendarSessionProps {
   session: Session
@@ -19,6 +19,7 @@ interface CalendarSessionProps {
 export const CalendarSession = ({ session, i, updateSession, removeSession }: CalendarSessionProps) => {
   const duration = (session.end.getTime() - session.start.getTime()) / 60000;
   const [height, setHeight] = React.useState(duration * HEIGHT_PER_MINUTE);
+  const { setSelectedSession, setUpdateSelectedSession } = useSessions();
   const { setSelectedTask } = useTasks();
   const { color } = session.project;
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -36,7 +37,14 @@ export const CalendarSession = ({ session, i, updateSession, removeSession }: Ca
       ...session,
       end: addMinutes(session.start, Math.round(size.height / HEIGHT_PER_MINUTE)),
     };
+    console.log(_session);
     await updateSession(_session);
+  };
+
+  const handleOnClick = () => {
+    setSelectedSession(session);
+    setSelectedTask(session.task);
+    setUpdateSelectedSession(() => updateSession);
   };
 
   return (
@@ -65,10 +73,10 @@ export const CalendarSession = ({ session, i, updateSession, removeSession }: Ca
             {...listeners}
             {...attributes}
             className="w-full h-full"
-            onClick={() => setSelectedTask(session.task)}
+            onClick={handleOnClick}
           >
             <div className="flex space-x-2 items-center">
-              <Icon name={session.project.icon} size={3.5} className="" />
+              <Icon name={session.project.icon} size={3} />
               <div>{format(session.start, 'HH:mm')}</div>
               <div>{`${duration}m`}</div>
               <IconButton

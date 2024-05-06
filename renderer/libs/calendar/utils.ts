@@ -20,6 +20,7 @@ export const dataToSession = (
   getProject: (id: string) => Project,
   getTask?: (id?: string) => Task | undefined
 ): Session => ({
+  id: data.id,
   start: data.start.toDate(),
   end: data.end.toDate(),
   project: getProject(data.projectId),
@@ -28,6 +29,7 @@ export const dataToSession = (
 });
 
 export const sessionToData = (session: Session): SessionData => ({
+  id: session.id,
   start: Timestamp.fromDate(session.start),
   end: Timestamp.fromDate(session.end),
   projectId: session.project.id,

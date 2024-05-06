@@ -3,10 +3,12 @@ import Head from 'next/head';
 import { ProjectsTabs, ProjectBoard, useProjects } from '~projects';
 import { ResizablePanels } from '~core-ui';
 import { TaskDetails, useTasks } from '~tasks';
+import { useSessions } from '~calendar';
 
 const Home = () => {
-  const { selectedTask } = useTasks();
   const { selectedProject, setSelectedProject } = useProjects();
+  const { selectedTask } = useTasks();
+  const { selectedSession } = useSessions();
 
   return (
     <React.Fragment>
@@ -24,7 +26,7 @@ const Home = () => {
 
         <div className="bg-slate-800 h-[calc(100vh-7.2rem)] overflow-auto">
           {selectedTask && (
-            <TaskDetails task={selectedTask} />
+            <TaskDetails task={selectedTask} session={selectedSession} />
           )}
         </div>
       </ResizablePanels>

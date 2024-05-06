@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { ProvideData } from '~platform';
 import { AuthRedirect } from '~auth';
 import { ProvideProjects } from '~projects';
-import { ProvideToday } from '~calendar';
+import { ProvideToday, ProvideSessions } from '~calendar';
 import { AppLayout } from '~core-ui';
 import cn from 'classnames';
 
@@ -36,9 +36,11 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       <ProvideProjects>
         <ProvideTasks>
           <ProvideToday>
-            <AppLayout>
-              {children}
-            </AppLayout>
+            <ProvideSessions>
+              <AppLayout>
+                {children}
+              </AppLayout>
+            </ProvideSessions>
           </ProvideToday>
         </ProvideTasks>
       </ProvideProjects>

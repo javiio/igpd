@@ -3,6 +3,7 @@ import type { Project } from '~projects';
 import type { Task } from '~tasks';
 
 export interface SessionData {
+  id: string
   start: Timestamp
   end: Timestamp
   projectId: string
@@ -11,6 +12,7 @@ export interface SessionData {
 };
 
 export interface Session {
+  id: string
   start: Date
   end: Date
   project: Project

@@ -9,6 +9,7 @@ import {
   useDroppable,
 } from '@dnd-kit/core';
 import { restrictToVerticalAxis, createSnapModifier } from '@dnd-kit/modifiers';
+import { uid } from '~platform';
 import { useProjects } from '~projects';
 import { useTasks } from '~tasks';
 import { useDaily, CalendarSession, CalendarSchedule, CalendarActivityLog, useToday, TIMES, HEIGHT_PER_MINUTE, type Session } from '../';
@@ -72,6 +73,7 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
 
   const handleAddSchedule = async (start: Date, end: Date) => {
     await addSchedule({
+      id: uid(),
       start,
       end,
       project: selectedProject ?? defaultProject,
@@ -80,6 +82,7 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
 
   const handleAddSession = async (start: Date, end: Date) => {
     await addSession({
+      id: uid(),
       start,
       end,
       project: selectedProject ?? defaultProject,
@@ -138,7 +141,7 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
             <CalendarLines date={date} onClick={handleAddSession} />
             {sessions.map((session, i) => (
               <CalendarSession
-                key={`${i}-${session.start.toISOString()}`}
+                key={session.id}
                 i={i}
                 session={session}
                 updateSession={async (s: Session) => await updateSession(s, i)}
@@ -147,7 +150,7 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
             ))}
           </div>
 
-          <div className="z-10">
+          <div className="z-10 border-l border-l-white/10">
             <CalendarLines date={date} onClick={handleAddSchedule} />
             {activityLogs.map((activity, i) => (
               <CalendarActivityLog
@@ -166,9 +169,11 @@ export const DailyCalendar = ({ date }: DailyCalendarProps) => {
 
         {isToday(date) && (
           <div
-            className="absolute left-16 right-0 opacity-75 h-0.5 bg-red-500/90"
+            className="absolute left-10 right-0 h-0.5 bg-red-500/70"
             style={{ top: currentTimePosition }}
-          />
+          >
+            <div className="absolute -top-1 left-5 w-2.5 h-2.5 bg-red-500/90 rounded-full" />
+          </div>
         )}
       </div>
     </DndContext>

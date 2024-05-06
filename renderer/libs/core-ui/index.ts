@@ -9,5 +9,7 @@ export * from './components/Label';
 export * from './components/Loading';
 export * from './components/Modal';
 export * from './components/ResizablePanels';
+export * from './components/TimeInterval';
+export * from './components/TimePicker';
 export * from './layout/AppLayout';
 export * from './layout/SidebarMenu';

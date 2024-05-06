@@ -37,18 +37,21 @@ export const ProvideToday = ({ children }: { children: React.ReactNode }) => {
         setToday(now);
       }
       setCurrentTimePosition(calcTopPosition(now));
+      updateTimer();
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [today, currentSession]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      updateCurrentSession();
+      if (!isInProgress) {
+        updateCurrentSession();
+      }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [sessions, schedule]);
+  }, [isInProgress, sessions, schedule, currentSession]);
 
   const updateCurrentSession = () => {
     const now = new Date();
@@ -56,10 +59,22 @@ export const ProvideToday = ({ children }: { children: React.ReactNode }) => {
     if (!current) {
       current = schedule.find((session) => session.start <= now && session.end >= now);
     }
-    if (current) {
-      const hours = getHours(current.end) - getHours(now);
-      const minutes = getMinutes(current.end) - getMinutes(now);
-      const seconds = getSeconds(current.end) - getSeconds(now);
+    if (
+      current?.start !== currentSession?.start ||
+      current?.end !== currentSession?.end ||
+      current?.project.id !== currentSession?.project.id ||
+      current?.task?.id !== currentSession?.task?.id
+    ) {
+      setCurrentSession(current);
+    }
+  };
+
+  const updateTimer = () => {
+    const now = new Date();
+    if (currentSession) {
+      const hours = getHours(currentSession.end) - getHours(now);
+      const minutes = getMinutes(currentSession.end) - getMinutes(now);
+      const seconds = getSeconds(currentSession.end) - getSeconds(now);
       const _remainingTime = hours * 60 * 60 + minutes * 60 + seconds;
       setRemainingTime(_remainingTime);
       const minutesStr = Math.floor(_remainingTime / 60).toString().padStart(2, '0');
@@ -70,9 +85,6 @@ export const ProvideToday = ({ children }: { children: React.ReactNode }) => {
       setIsInProgress(false);
       setFormattedTime('00:00');
     }
-
-    // TODO: check if current is different from currentSession
-    setCurrentSession(current);
   };
 
   const toggleInProgress = async () => {

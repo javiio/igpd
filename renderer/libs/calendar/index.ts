@@ -4,6 +4,7 @@ export * from './components/CalendarSession';
 export * from './components/DailyCalendar';
 export * from './components/OnGoingSession';
 export * from './hooks/useDaily';
+export * from './hooks/useSessions';
 export * from './hooks/useToday';
 export * from './types';
 export * from './utils';
