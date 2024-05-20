@@ -8,7 +8,6 @@ export interface SessionData {
   end: Timestamp
   projectId: string
   taskId?: string
-  actionItem?: string
 };
 
 export interface Session {
@@ -17,7 +16,6 @@ export interface Session {
   end: Date
   project: Project
   task?: Task
-  actionItem?: string
 }
 
 export interface ActivityLogData {

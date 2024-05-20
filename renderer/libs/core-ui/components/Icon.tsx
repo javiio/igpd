@@ -23,6 +23,7 @@ const ICONS_MAP = {
   comment: Fi.FiMessageCircle,
   prev: Fi.FiChevronLeft,
   next: Fi.FiChevronRight,
+  play: Ci.CiPlay1,
 };
 
 export const Icon = ({ name, size = '5', className = '', ...props }: IconProps) => {

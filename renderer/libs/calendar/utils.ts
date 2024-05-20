@@ -25,7 +25,6 @@ export const dataToSession = (
   end: data.end.toDate(),
   project: getProject(data.projectId),
   task: data.taskId && getTask ? getTask(data.taskId) : undefined,
-  actionItem: data.actionItem,
 });
 
 export const sessionToData = (session: Session): SessionData => ({
@@ -34,7 +33,6 @@ export const sessionToData = (session: Session): SessionData => ({
   end: Timestamp.fromDate(session.end),
   projectId: session.project.id,
   ...(session.task && { taskId: session.task?.id }),
-  ...(session.actionItem && { actionItem: session.actionItem }),
 });
 
 export const dataToActivityLog = (

@@ -82,7 +82,7 @@ export const ActionItems = ({ task }: { task: Task }) => {
                       ref={provided.innerRef}
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
-                      className="px-2 py-1 border border-transparent overflow-hidden hover:border-slate-600/50 hover:bg-slate-950/10 relative group rounded-md"
+                      className="-ml-1 overflow-hidden hover:bg-slate-950/15 transition-colors relative rounded-md"
                     >
                       <ActionItem
                         task={task}

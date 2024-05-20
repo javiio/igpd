@@ -6,6 +6,8 @@ import type { Session } from '../';
 interface TodayContext {
   currentTimePosition: number
   currentSession: Session | undefined
+  currentActionItem: string | undefined
+  setCurrentActionItem: (actionItem: string | undefined) => void
   remainingTime: number
   formattedTime: string
   isInProgress: boolean
@@ -15,6 +17,8 @@ interface TodayContext {
 const todayContext = createContext<TodayContext>({
   currentTimePosition: 0,
   currentSession: undefined,
+  currentActionItem: undefined,
+  setCurrentActionItem: () => {},
   remainingTime: 0,
   formattedTime: '',
   isInProgress: false,
@@ -25,6 +29,7 @@ export const ProvideToday = ({ children }: { children: React.ReactNode }) => {
   const [today, setToday] = useState(new Date());
   const { sessions, schedule, activityLogs, addActivityLog, updateActivityLog } = useDaily(today);
   const [currentSession, setCurrentSession] = useState<Session | undefined>();
+  const [currentActionItem, setCurrentActionItem] = useState<string | undefined>();
   const [currentTimePosition, setCurrentTimePosition] = useState<number>(0);
   const [remainingTime, setRemainingTime] = useState<number>(0);
   const [formattedTime, setFormattedTime] = useState<string>('');
@@ -109,6 +114,8 @@ export const ProvideToday = ({ children }: { children: React.ReactNode }) => {
 
   const value = {
     currentSession,
+    currentActionItem,
+    setCurrentActionItem,
     currentTimePosition,
     remainingTime,
     formattedTime,
