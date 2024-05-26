@@ -2,6 +2,7 @@ export * from './components/CalendarActivityLog';
 export * from './components/CalendarSchedule';
 export * from './components/CalendarSession';
 export * from './components/DailyCalendar';
+export * from './components/InProgressWobble';
 export * from './components/OnGoingSession';
 export * from './hooks/useDaily';
 export * from './hooks/useSessions';
