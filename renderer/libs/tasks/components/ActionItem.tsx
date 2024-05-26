@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 import { IconButton } from '~core-ui';
-import { useToday } from '~calendar';
+import { InProgressWobble, useToday } from '~calendar';
 import type { Task, ActionItemData } from '..';
 
 interface ActionItemProps {
@@ -24,7 +24,9 @@ export const ActionItem = ({
   const [title, setTitle] = useState('');
   const [showForm, setShowForm] = useState(false);
   const [subItems, setSubItems] = useState(actionItem.subItems ?? []);
-  const { currentActionItem, setCurrentActionItem } = useToday();
+  const { currentActionItem, setCurrentActionItem, isInProgress, toggleInProgress } = useToday();
+  const isCurrentActionItem = currentActionItem === actionItem.title;
+  const isActionItemInProgress = isInProgress && isCurrentActionItem;
 
   useEffect(() => {
     setSubItems(actionItem.subItems ?? []);
@@ -56,42 +58,64 @@ export const ActionItem = ({
     setTitle(e.target.value);
   };
 
+  const handlePlay = () => {
+    setCurrentActionItem(actionItem.title);
+    if (!isInProgress) {
+      toggleInProgress();
+    }
+  };
+
   return (
     <div>
-      <div className="flex space-x-2 py-1 border border-transparent overflow-hidden hover:border-slate-600/50 hover:bg-slate-950/10 group rounded-md">
-        <div className="w-5 pl-1 pt-0.5">
+      <div
+        className={cn(
+          'flex space-x-2 py-1 border border-transparent overflow-hidden hover:border-slate-600/50 hover:bg-slate-950/10 group rounded-md transition-colors',
+          isCurrentActionItem && 'border-slate-600/50'
+        )}
+      >
+        <div className="w-5 pl-1 pt-[3px]">
           <IconButton
             name="play"
             size={4}
             className="hidden group-hover:block"
-            onClick={() => setCurrentActionItem(actionItem.title)}
+            onClick={handlePlay}
           />
         </div>
-        <input
-          type="checkbox"
-          checked={actionItem.completed}
-          onClick={handleToggle}
-          onChange={() => {}}
-        />
+        <div className="mt-[1px]">
+          <input
+            type="checkbox"
+            checked={actionItem.completed}
+            onClick={handleToggle}
+            onChange={() => {}}
+          />
+        </div>
 
         <div className={cn(
+          'flex-1',
           actionItem.completed && 'italic text-gray-400 line-through',
-          currentActionItem === actionItem.title && 'text-yellow-600'
+          isCurrentActionItem && 'text-yellow-600'
         )}>
           {actionItem.title}
         </div>
 
-        <div className="absolute right-2 top-[5px] hidden group-hover:flex space-x-2">
-          <IconButton
-            name="plus"
-            size={4}
-            onClick={() => { setShowForm(!showForm); }}
-          />
-          <IconButton
-            name="remove"
-            size={4}
-            onClick={handleRemove}
-          />
+        <div className="pt-0.5 pr-1.5 h-6 w-12">
+          {isActionItemInProgress && (
+            <div className='group-hover:hidden mt-2'>
+              <InProgressWobble />
+            </div>
+          )}
+          <div className="text-right hidden group-hover:block">
+            <IconButton
+              name="plus"
+              size={4}
+              onClick={() => { setShowForm(!showForm); }}
+            />
+            <IconButton
+              name="remove"
+              size={4}
+              onClick={handleRemove}
+            />
+          </div>
         </div>
       </div>
 
