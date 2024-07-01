@@ -4,14 +4,10 @@ import { Menu, RadioGroup, Transition } from '@headlessui/react';
 import { Float } from '@headlessui-float/react';
 import { Icon, ActionModal, Input, Label, IconButton } from '~core-ui';
 import { useTask } from '../';
-import type { Task, ResourceData } from '../';
+import type { ResourceData } from '../';
 
-interface TaskResourcesProps {
-  task: Task
-}
-
-export const TaskResources = ({ task }: TaskResourcesProps) => {
-  const { update } = useTask(task);
+export const TaskResources = () => {
+  const { task, update } = useTask();
   const [resources, setResources] = useState<ResourceData[]>(task.resources ?? []);
   const [showModal, setShowModal] = useState(false);
   const [title, setTitle] = useState('');

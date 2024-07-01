@@ -2,7 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import { ProjectsTabs, ProjectBoard, useProjects } from '~projects';
 import { ResizablePanels } from '~core-ui';
-import { TaskDetails, useTasks } from '~tasks';
+import { ProvideTask, TaskDetails, useTasks } from '~tasks';
 import { useSessions } from '~calendar';
 
 const Home = () => {
@@ -26,7 +26,9 @@ const Home = () => {
 
         <div className="bg-slate-800 h-[calc(100vh-7.2rem)] overflow-auto">
           {selectedTask && (
-            <TaskDetails task={selectedTask} session={selectedSession} />
+            <ProvideTask task={selectedTask}>
+              <TaskDetails session={selectedSession} />
+            </ProvideTask>
           )}
         </div>
       </ResizablePanels>

@@ -8,7 +8,7 @@ import React, {
 import { type FirestoreError } from 'firebase/firestore';
 import { useData } from '~platform';
 import { useProjects } from '~projects';
-import { createTaskData } from '../';
+import { createTaskData, dataToTask } from '../';
 import type { TaskData, Task } from '../';
 
 interface TaskContext {
@@ -41,20 +41,18 @@ export const ProvideTasks = ({ children }: { children: React.ReactNode }) => {
   const [selectedTask, setSelectedTask] = useState<Task>();
   const [listsItems, setListsItems] = useState<ListsItems>({});
   const [data, isLoading, error] = useCollection('tasks');
-  const { projects } = useProjects();
+  const { projects, getProject } = useProjects();
 
   useEffect(() => {
-    if (data) {
-      const allTasks: Task[] = data.docs.map((doc) => {
-        const task = { ...(doc.data() as TaskData) };
-        return task;
-      });
+    if (data && projects.length > 0) {
+      const allTasks: Task[] = data.docs.map((doc) => dataToTask(doc.data() as TaskData, getProject));
       setTasks(allTasks);
 
       const _listsItems: ListsItems = {};
       allTasks.forEach((task) => {
-        const items = _listsItems[task.listId] ?? [];
-        _listsItems[task.listId] = [...items, task];
+        if (!task.list) return; // This happens when a project is not active
+        const items = _listsItems[task.list.id] ?? [];
+        _listsItems[task.list.id] = [...items, task];
       });
       setListsItems(_listsItems);
 

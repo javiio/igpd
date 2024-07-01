@@ -1,19 +1,17 @@
 import React, { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { IconButton, Icon } from '~core-ui';
-import { useTask, type Task } from '../';
+import { useTask } from '../';
 
 interface TaskActionsMenuProps {
-  task: Task
   onEdit: () => void
 };
 
-export const TaskActionsMenu = ({ task, onEdit }: TaskActionsMenuProps) => {
-  const { remove } = useTask(task);
+export const TaskActionsMenu = ({ onEdit }: TaskActionsMenuProps) => {
+  const { remove } = useTask();
 
   const handleOnRemove = async () => {
     await remove();
-    // confirm({ onConfirm: remove });
   };
 
   return (

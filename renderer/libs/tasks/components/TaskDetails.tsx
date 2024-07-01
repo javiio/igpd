@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { TimeInterval } from '~core-ui';
 import { NoteEditor } from '~notes';
 import { useSessions } from '~calendar';
-import { TaskActionsMenu, EditTaskTitleForm, ActionItems, TaskResources, TaskComments } from '../';
-import type { Task } from '../';
+import { TaskActionsMenu, EditTaskTitleForm, ActionItems, TaskResources, TaskComments, useTask } from '../';
 import type { Session } from '~calendar';
 
 interface TaskDetailsProps {
-  task: Task
   session?: Session
 };
 
-export const TaskDetails = ({ task, session }: TaskDetailsProps) => {
+export const TaskDetails = ({ session }: TaskDetailsProps) => {
+  const { task } = useTask();
   const [isTitleEditing, setIsTitleEditing] = useState(false);
   const { updateSelectedSession, setSelectedSession } = useSessions();
   const handleSessionChange = async (start: Date, end: Date) => {
@@ -32,22 +31,24 @@ export const TaskDetails = ({ task, session }: TaskDetailsProps) => {
       <div className="flex space-x-2">
         <div className="flex-1">
           {isTitleEditing
-            ? <EditTaskTitleForm task={task} onClose={() => setIsTitleEditing(false)} />
+            ? <EditTaskTitleForm onClose={() => setIsTitleEditing(false)} />
             : <h2 onClick={() => setIsTitleEditing(true)}>{task.name}</h2>
           }
         </div>
         <div className="mt-1">
-          <TaskActionsMenu task={task} onEdit={() => setIsTitleEditing(true)} />
+          <TaskActionsMenu onEdit={() => setIsTitleEditing(true)} />
         </div>
       </div>
 
       <div className="flex-col space-y-4 mt-1">
-        <TaskResources task={task} />
+        <TaskResources />
         <NoteEditor noteId={`task-${task.id}`} />
         <div className="h-[1px] w-20 bg-gradient-to-r from-slate-200 opacity-70 " />
-        <ActionItems task={task} />
+
+        <ActionItems />
         <div className="h-[1px] w-20 bg-gradient-to-r from-slate-200 opacity-70" />
-        <TaskComments task={task} />
+
+        <TaskComments />
       </div>
     </div>
   );

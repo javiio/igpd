@@ -1,5 +1,6 @@
-export * from './components/ActionItem';
 export * from './components/ActionItems';
+export * from './components/ActionItemsList';
+export * from './components/ActionItemsListItem';
 export * from './components/EditTaskTitleForm';
 export * from './components/TaskActionsMenu';
 export * from './components/TaskBoardItem';

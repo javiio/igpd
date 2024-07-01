@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { Button, IconButton, Input } from '~core-ui';
-import { useTask, type Task } from '../';
+import { useTask } from '../';
 
 interface EditTaskTitleFormProps {
-  task: Task
   onClose: () => void
 }
 
-export const EditTaskTitleForm = ({ task, onClose }: EditTaskTitleFormProps) => {
+export const EditTaskTitleForm = ({ onClose }: EditTaskTitleFormProps) => {
+  const { task, update } = useTask();
   const [name, setName] = useState(task.name);
   const [isLoading, setIsLoading] = useState(false);
-  const { update } = useTask(task);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

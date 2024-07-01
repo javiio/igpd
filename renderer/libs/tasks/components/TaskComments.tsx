@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Timestamp } from 'firebase/firestore';
 import { Icon, IconButton, Input } from '~core-ui';
 import { useTask } from '../';
-import type { Task, CommentData } from '../';
+import type { CommentData } from '../';
 
-export const TaskComments = ({ task }: { task: Task }) => {
+export const TaskComments = () => {
+  const { task, update } = useTask();
   const [body, setBody] = useState('');
   const [comments, setComments] = useState<CommentData[]>(task.comments ?? []);
-  const { update } = useTask(task);
 
   useEffect(() => {
     setComments(task.comments ?? []);

@@ -1,7 +1,19 @@
+import type { Project, BoardList } from '~projects';
+
 export interface ActionItemData {
+  id: string
   title: string
   completed: boolean
-  subItems?: ActionItemData[]
+  actionItems?: ActionItemData[]
+  collapsed?: boolean
+}
+
+export interface ActionItem {
+  id: string
+  title: string
+  completed: boolean
+  actionItems: ActionItem[]
+  collapsed?: boolean
 }
 
 export interface ResourceData {
@@ -10,9 +22,13 @@ export interface ResourceData {
   type: 'link' | 'file' | 'text'
 }
 
+export interface Resource extends ResourceData {}
+
 export interface CommentData {
   body: string
 }
+
+export interface Comment extends CommentData {}
 
 export interface TaskData {
   id: string
@@ -24,4 +40,12 @@ export interface TaskData {
   comments: CommentData[]
 };
 
-export interface Task extends TaskData {}
+export interface Task {
+  id: string
+  name: string
+  project: Project
+  list: BoardList
+  actionItems: ActionItem[]
+  resources: Resource[]
+  comments: Comment[]
+}

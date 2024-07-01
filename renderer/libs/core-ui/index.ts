@@ -1,4 +1,5 @@
 export * from './components/ActionModal';
+export * from './components/ActionsMenu';
 export * from './components/Button';
 export * from './components/Drawer';
 export * from './components/Error';

@@ -11,8 +11,15 @@ export const Input = ({ variant = 'primary', className, ...props }: InputProps) 
     variant === 'secondary' ? 'bg-white/5 border border-white/30' : 'bg-slate-900',
   ];
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Escape') {
+      e.currentTarget.blur();
+    }
+  }
+
   return (
     <input
+      onKeyDown={handleKeyDown}
       className={classes.join(' ')}
       {...props}
     />

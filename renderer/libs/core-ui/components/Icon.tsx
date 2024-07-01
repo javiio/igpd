@@ -23,7 +23,10 @@ const ICONS_MAP = {
   comment: Fi.FiMessageCircle,
   prev: Fi.FiChevronLeft,
   next: Fi.FiChevronRight,
+  down: Fi.FiChevronDown,
   play: Ci.CiPlay1,
+  minus: Fi.FiMinus,
+  checkbox: Fi.FiCheckSquare,
 };
 
 export const Icon = ({ name, size = '5', className = '', ...props }: IconProps) => {
