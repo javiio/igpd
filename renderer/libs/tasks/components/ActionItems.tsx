@@ -21,7 +21,7 @@ export const ActionItems = () => {
           <Button
             variant="link"
             size="sm"
-            className="mb-0"
+            className="!mb-0"
             onClick={() => setHideCompleted(!hideCompleted)}
           >
             {hideCompleted ? 'Show all' : 'Hide completed'}
