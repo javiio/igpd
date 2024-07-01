@@ -450,7 +450,6 @@ const Item = ({ id }: { id: UniqueIdentifier }) => {
   return (
     <div
       ref={setNodeRef}
-      {...listeners}
       style={{
         transition,
         transform: CSS.Translate.toString(transform),

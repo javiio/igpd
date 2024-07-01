@@ -1,5 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { DragDropContext, Droppable, Draggable, type DropResult } from 'react-beautiful-dnd';
+import {
+  closestCenter,
+  DndContext,
+  MouseSensor,
+  TouchSensor,
+  useSensors,
+  useSensor,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { restrictToVerticalAxis, restrictToParentElement } from '@dnd-kit/modifiers';
 import { Input, IconButton } from '~core-ui';
 import { useTask, ActionItemsListItem } from '..';
 import type { ActionItem } from '..';
@@ -85,52 +98,44 @@ export const ActionItemsList = ({
     await updateActionItems(path, _actionItems);
   };
 
-  const handleDragEnd = async (result: DropResult) => {
-    if (!result.destination) return;
+  const sensors = useSensors(
+    useSensor(MouseSensor, { activationConstraint: { distance: 10 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 250, tolerance: 5 } })
+  );
+  const modifiers = [restrictToVerticalAxis, restrictToParentElement];
+  const handleDragEnd = async ({ active, over }) => {
+    if (!over || active.id === over.id) return;
 
-    const reorderedItems = Array.from(actionItems);
-    const [removed] = reorderedItems.splice(result.source.index as number, 1);
-    reorderedItems.splice(result.destination.index as number, 0, removed);
+    const activtIndex = actionItemsClone.findIndex((item) => item.id === active.id);
+    const overIndex = actionItemsClone.findIndex((item) => item.id === over.id);
+    const _actionItems = arrayMove(actionItemsClone, activtIndex, overIndex);
 
-    setActionItemsClone(reorderedItems);
-    await updateActionItems(path, reorderedItems);
+    setActionItemsClone(_actionItems);
+    await updateActionItems(path, _actionItems);
   };
 
   return (
     <div className={isRoot ? '' : 'border-l border-slate-100/15'}>
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="actionItems">
-          {(provided) => (
-            <div
-              {...provided.droppableProps}
-              ref={provided.innerRef}
-              className="flex-row space-y-0"
-            >
-              {actionItemsClone.map((actionItem, i) => (
-                <Draggable key={actionItem.id} draggableId={actionItem.id} index={i}>
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      className="ml-0.5 hover:bg-slate-950/15 transition-colors relative rounded-md"
-                    >
-                      <ActionItemsListItem
-                        path={path}
-                        actionItem={actionItem}
-                        onUpdate={onUpdateActionItem}
-                        onRemove={onRemoveActionItem}
-                        onToggle={onToggleActionItem}
-                        hideCompleted={hideCompleted}
-                      />
-                    </div>
-                  )}
-                </Draggable>
-              ))}
-            </div>
-          )}
-        </Droppable>
-      </DragDropContext>
+      <DndContext
+        sensors={sensors}
+        modifiers={modifiers}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext items={actionItemsClone} strategy={verticalListSortingStrategy}>
+          {actionItemsClone.map((actionItem, i) => (
+            <ActionItemsListItem
+              key={actionItem.id}
+              path={path}
+              actionItem={actionItem}
+              onUpdate={onUpdateActionItem}
+              onRemove={onRemoveActionItem}
+              onToggle={onToggleActionItem}
+              hideCompleted={hideCompleted}
+            />
+          ))}
+        </SortableContext>
+      </DndContext>
 
       {(isRoot || showNewForm) && (
         <form onSubmit={handleSubmitNew} className="flex space-x-2 mt-4 pb-4 ml-8 group">

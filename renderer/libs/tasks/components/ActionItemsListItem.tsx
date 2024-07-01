@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 import { IconButton, ActionsMenu, Input, Button, Icon } from '~core-ui';
 import { InProgressWobble, useToday } from '~calendar';
 import { ActionItemsList, isActionItemCompleted, calcCompletedActionItems } from '..';
@@ -46,8 +48,27 @@ export const ActionItemsListItem = ({ path, actionItem, onUpdate, onToggle, onRe
     await onUpdate({ ...actionItem, collapsed: !isCollapsed });
   };
 
+  const {
+    setNodeRef,
+    isDragging,
+    listeners,
+    transform,
+    transition,
+  } = useSortable({ id: actionItem.id });
+
   return (
-    <div>
+    <div
+      ref={setNodeRef}
+      style={{
+        transition,
+        transform: CSS.Translate.toString(transform),
+      }}
+      {...listeners}
+      className={cn(
+        'ml-0.5 transition-colors rounded-md',
+        isDragging ? 'opacity-60 bg-slate-950/50 border border-slate-600/50' : 'hover:bg-slate-950/15'
+      )}
+    >
       <div
         className={cn(
           'flex space-x-2 py-1 border border-transparent hover:border-slate-600/50 hover:bg-slate-950/10 group rounded-md transition-colors',
