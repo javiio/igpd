@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
-import { Icon, Button } from '~core-ui';
+import React from 'react';
+import { Icon } from '~core-ui';
 import { useTask, ActionItemsList, calcCompletedActionItems } from '..';
 
 export const ActionItems = () => {
   const { task } = useTask();
-  const [hideCompleted, setHideCompleted] = useState(false);
 
   return (
     <div>
@@ -18,21 +17,10 @@ export const ActionItems = () => {
           <span>
             {calcCompletedActionItems(task.actionItems)}/{task.actionItems.length}
           </span>
-          <Button
-            variant="link"
-            size="sm"
-            className="!mb-0"
-            onClick={() => setHideCompleted(!hideCompleted)}
-          >
-            {hideCompleted ? 'Show all' : 'Hide completed'}
-          </Button>
         </div>
       </div>
 
-      <ActionItemsList
-        actionItems={task.actionItems}
-        hideCompleted={hideCompleted}
-      />
+      <ActionItemsList actionItems={task.actionItems} />
     </div>
   );
 };

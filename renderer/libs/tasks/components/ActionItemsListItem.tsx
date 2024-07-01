@@ -13,10 +13,9 @@ interface ActionItemsListItemProps {
   onUpdate: (actionItem: ActionItem) => Promise<void>
   onToggle: (actionItem: ActionItem) => Promise<void>
   onRemove: (actionItem: ActionItem) => Promise<void>
-  hideCompleted?: boolean
 }
 
-export const ActionItemsListItem = ({ path, actionItem, onUpdate, onToggle, onRemove, hideCompleted }: ActionItemsListItemProps) => {
+export const ActionItemsListItem = ({ path, actionItem, onUpdate, onToggle, onRemove }: ActionItemsListItemProps) => {
   const [titleValue, setTitleValue] = useState(actionItem.title);
   const [editMode, setEditMode] = useState(false);
   const [showNewForm, setShowNewForm] = useState(false);
@@ -25,9 +24,6 @@ export const ActionItemsListItem = ({ path, actionItem, onUpdate, onToggle, onRe
   const isCurrentActionItem = currentActionItem === actionItem.title;
   const isActionItemInProgress = isInProgress && isCurrentActionItem;
   const hasChilds = actionItem.actionItems.length > 0;
-  const isCompleted = isActionItemCompleted(actionItem);
-
-  if (hideCompleted && isCompleted) return null;
 
   const handleOnEdit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -105,7 +101,7 @@ export const ActionItemsListItem = ({ path, actionItem, onUpdate, onToggle, onRe
           <div
             className={cn(
               'flex-1',
-              isCompleted && 'italic text-gray-400 line-through',
+              isActionItemCompleted(actionItem) && 'italic text-gray-400 line-through',
               isCurrentActionItem && 'text-yellow-600'
             )}
           >
@@ -189,7 +185,6 @@ export const ActionItemsListItem = ({ path, actionItem, onUpdate, onToggle, onRe
             actionItems={actionItem.actionItems ?? []}
             showNewForm={showNewForm}
             setShowNewForm={setShowNewForm}
-            hideCompleted={hideCompleted}
           />
         </div>
       )}

@@ -23,7 +23,6 @@ interface ActionItemsListProps {
   actionItems: ActionItem[]
   showNewForm?: boolean
   setShowNewForm?: (show: boolean) => void
-  hideCompleted?: boolean
 }
 
 export const ActionItemsList = ({
@@ -31,7 +30,6 @@ export const ActionItemsList = ({
   actionItems,
   showNewForm,
   setShowNewForm = () => {},
-  hideCompleted,
 }: ActionItemsListProps) => {
   const { updateActionItems } = useTask();
   const [actionItemsClone, setActionItemsClone] = useState(actionItems);
@@ -131,7 +129,6 @@ export const ActionItemsList = ({
               onUpdate={onUpdateActionItem}
               onRemove={onRemoveActionItem}
               onToggle={onToggleActionItem}
-              hideCompleted={hideCompleted}
             />
           ))}
         </SortableContext>
