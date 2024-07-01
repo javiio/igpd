@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import cn from 'classnames';
 import '../../../../node_modules/react-resizable/css/styles.css';
-import { calcTopPosition, HEIGHT_PER_MINUTE, type ActivityLog } from '../';
+import { calcTopPosition, HEIGHT_PER_MINUTE, useToday, type ActivityLog } from '../';
 
 interface CalendarActivityLogProps {
   activity: ActivityLog
@@ -10,16 +10,15 @@ interface CalendarActivityLogProps {
 
 export const CalendarActivityLog = ({ activity, isInProgress }: CalendarActivityLogProps) => {
   const [duration, setDuration] = useState(0);
+  const { currentTimePosition } = useToday();
 
   useEffect(() => {
-    let _duration = 0;
-    if (activity.end) {
-      _duration = (activity.end.getTime() - activity.start.getTime()) / 60000;
+    if (duration === 0 && activity.end) {
+      setDuration((activity.end.getTime() - activity.start.getTime()) / 60000);
     } else if (isInProgress) {
-      _duration = (new Date().getTime() - activity.start.getTime()) / 60000;
+      setDuration((new Date().getTime() - activity.start.getTime()) / 60000);
     }
-    setDuration(_duration);
-  }, [activity, isInProgress]);
+  }, [currentTimePosition]);
 
   return (
     <div className="w-4">
@@ -48,7 +47,7 @@ export const CalendarActivityLog = ({ activity, isInProgress }: CalendarActivity
       {isInProgress && (
         <div
           className="absolute flex -m-1.5"
-          style={{ top: calcTopPosition(new Date()) }}
+          style={{ top: currentTimePosition }}
         >
           <div className={`relative inline-flex rounded-full h-3 w-3 bg-${activity.session.project.color}`} />
           <div className={`animate-ping absolute inline-flex h-full w-full rounded-full bg-${activity.session.project.color}`} />

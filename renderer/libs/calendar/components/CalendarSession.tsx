@@ -37,7 +37,6 @@ export const CalendarSession = ({ session, i, updateSession, removeSession }: Ca
       ...session,
       end: addMinutes(session.start, Math.round(size.height / HEIGHT_PER_MINUTE)),
     };
-    console.log(_session);
     await updateSession(_session);
   };
 
