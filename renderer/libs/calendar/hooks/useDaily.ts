@@ -8,7 +8,7 @@ import type { Session, DailyRecord, DailyRecordData, ActivityLog } from '../';
 
 export const START_TIME = 0;
 export const END_TIME = 24;
-export const HEIGHT_PER_MINUTE = 1.4;
+export const HEIGHT_PER_MINUTE = 1.85;
 export const TIMES = Array.from(Array(END_TIME - START_TIME).keys()).map(
   (i) => `${i + START_TIME}:00`
 );
