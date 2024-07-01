@@ -4,7 +4,7 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { IconButton, ActionsMenu, Input, Button, Icon } from '~core-ui';
 import { InProgressWobble, useToday } from '~calendar';
-import { ActionItemsList, isActionItemCompleted, calcCompletedActionItems } from '..';
+import { ActionItemsList, isActionItemCompleted, calcCompletedActionItems, useTask } from '..';
 import type { ActionItem } from '..';
 
 interface ActionItemsListItemProps {
@@ -16,6 +16,7 @@ interface ActionItemsListItemProps {
 }
 
 export const ActionItemsListItem = ({ path, actionItem, onUpdate, onToggle, onRemove }: ActionItemsListItemProps) => {
+  const { task } = useTask();
   const [titleValue, setTitleValue] = useState(actionItem.title);
   const [editMode, setEditMode] = useState(false);
   const [showNewForm, setShowNewForm] = useState(false);
@@ -71,12 +72,16 @@ export const ActionItemsListItem = ({ path, actionItem, onUpdate, onToggle, onRe
           isCurrentActionItem && 'border-slate-600/50'
         )}
       >
-        <div className="w-5 pl-1 pt-[3px]">
+        <div className="w-5 pl-1 pt-[1px]">
           {!hasChilds && (
             <IconButton
-              name="play"
-              size={4}
-              className="hidden group-hover:block"
+              name={isActionItemInProgress ? 'playFill' : 'play'}
+              size={5}
+              className={cn([
+                `hover:text-${task.project.color}`,
+                isCurrentActionItem ? 'block' : 'hidden group-hover:block',
+                isActionItemInProgress && `text-${task.project.color}`,
+              ])}
               onClick={handlePlay}
             />
           )}
@@ -102,7 +107,7 @@ export const ActionItemsListItem = ({ path, actionItem, onUpdate, onToggle, onRe
             className={cn(
               'flex-1',
               isActionItemCompleted(actionItem) && 'italic text-gray-400 line-through',
-              isCurrentActionItem && 'text-yellow-600'
+              isCurrentActionItem && `text-${task.project.color}`
             )}
           >
             {actionItem.title}

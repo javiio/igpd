@@ -1,6 +1,7 @@
 import React from 'react';
 import * as Ci from 'react-icons/ci';
 import * as Fi from 'react-icons/fi';
+import * as Hi2 from 'react-icons/hi2';
 
 interface IconProps {
   name: string
@@ -24,7 +25,8 @@ const ICONS_MAP = {
   prev: Fi.FiChevronLeft,
   next: Fi.FiChevronRight,
   down: Fi.FiChevronDown,
-  play: Ci.CiPlay1,
+  play: Hi2.HiOutlinePlay,
+  playFill: Hi2.HiPlay,
   minus: Fi.FiMinus,
   checkbox: Fi.FiCheckSquare,
 };
